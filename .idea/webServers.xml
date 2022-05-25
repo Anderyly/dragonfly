@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="bd0e04b1-4d09-4321-bf4d-bbbc521a1947" name="111.229.109.208">
+        <fileTransfer rootFolder="/www/wwwroot/console.xmml.club" accessType="SFTP" host="111.229.109.208" port="22" sshConfigId="6fa437d6-277f-452c-b139-db66d115c94e" sshConfig="root@111.229.109.208:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

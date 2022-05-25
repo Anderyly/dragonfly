@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="1. 修改提问支付类型错误&#10;2. 增加统一支付oid返回" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file://C:/Program Files/Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="6c0c808f-d996-43af-b27d-2a6ca1054b0f" />
+        <option name="url" value="git@github.com:Anderyly/aggregate-fortune-telling.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/main.go" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="25jEpsbVKJalGzhEKHUUheejhUP" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "true",
+    "configurable..is.expanded": "false",
+    "configurable.GoLibrariesConfigurable.is.expanded": "true",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "F:/data/go/src/gin",
+    "settings.editor.selected.configurable": "vcs.Git"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\data\go\src\dragonfly\models" />
+      <recent name="F:\data\go\src\dragonfly\controllers\api" />
+      <recent name="F:\data\go\src\gin\controllers\admin" />
+      <recent name="F:\data\go\src\gin\models" />
+      <recent name="$PROJECT_DIR$/models" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\data\go\src\gin\models" />
+      <recent name="F:\data\go\src\gin" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go 构建.go build linux">
+    <configuration name="go build gin" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="gin" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <package value="gin" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <output_directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build linux" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="gin" />
+      <working_directory value="$PROJECT_DIR$" />
+      <envs>
+        <env name="GOARCH" value="amd64" />
+        <env name="GOOS" value="linux" />
+      </envs>
+      <sudo value="true" />
+      <kind value="DIRECTORY" />
+      <package value="gin" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <output_directory value="$PROJECT_DIR$" />
+      <option name="run" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build windows" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="gin" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <package value="gin" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <output_directory value="$PROJECT_DIR$" />
+      <option name="run" value="false" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Go 构建.go build linux" />
+      <item itemvalue="Go 构建.go build windows" />
+      <item itemvalue="Go 构建.go build gin" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <created>1646302453532</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1646302453532</updated>
+      <workItem from="1646302456189" duration="47000" />
+      <workItem from="1646302518333" duration="111000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="4ac1e222-a80c-4401-9862-c98c43d3217c">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ID_WIDTH">
+                <map>
+                  <entry key="Table.Default.Author.ColumnIdWidth" value="74" />
+                  <entry key="Table.Default.Date.ColumnIdWidth" value="107" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+    <MESSAGE value="1.更正大师头像&#10;2.增加百度小程序登入" />
+    <MESSAGE value="增加腾讯云sdk" />
+    <MESSAGE value="1.增加用户注册时创建im账号&#10;2.增加用户发送红包功能" />
+    <MESSAGE value="1.增加后台文章分类" />
+    <MESSAGE value="1.更改提问&#10;2.解梦返回20条数据&#10;3.测算将铜币改成元" />
+    <MESSAGE value="1.更改后台排序&#10;2.增加古籍分类" />
+    <MESSAGE value="1.增加红包退回定时任务&#10;2.增加奖励记录&#10;3.去除消费记录显示的奖励记录" />
+    <MESSAGE value="1.修改大师头像问题&#10;2.增加用户中心返回中文地址&#10;3.修改收藏古籍以及文章图片不显示" />
+    <MESSAGE value="更改写法" />
+    <MESSAGE value="增加用户采纳" />
+    <MESSAGE value="定时任务" />
+    <MESSAGE value="百科返回图片设置" />
+    <MESSAGE value="增加后台优惠卷管理" />
+    <MESSAGE value="1.修改邀请划转钱包&#10;2.修改奖励记录" />
+    <MESSAGE value="增加提现金额限制" />
+    <MESSAGE value="增加文章 大师 古籍 卜卦历史记录" />
+    <MESSAGE value="增加后台大师资料 提问 解梦 八字金额 八字案例" />
+    <MESSAGE value="修复用户收藏记录" />
+    <MESSAGE value="增加所有消费的分销" />
+    <MESSAGE value="修改后台百科 古籍type" />
+    <MESSAGE value="增加支付宝微信支付" />
+    <MESSAGE value="增加大师发送索要红包" />
+    <MESSAGE value="backup" />
+    <MESSAGE value="余额不足返回406状态码 增加文案分享" />
+    <MESSAGE value="1. 修改提问支付类型错误&#10;2. 增加统一支付oid返回" />
+    <option name="LAST_COMMIT_MESSAGE" value="1. 修改提问支付类型错误&#10;2. 增加统一支付oid返回" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>
