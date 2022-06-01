@@ -22,6 +22,9 @@ func (con HomeController) Banner(c *gin.Context) {
 
 	for k, v := range list {
 		list[k].Image = ay.Yaml.GetString("domain") + v.Image
+		if v.Cover != "" {
+			list[k].Cover = ay.Yaml.GetString("domain") + v.Cover
+		}
 	}
 
 	ay.Json{}.Msg(c, 200, "success", gin.H{
