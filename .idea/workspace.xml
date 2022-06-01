@@ -27,7 +27,27 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="1. 修改提问支付类型错误&#10;2. 增加统一支付oid返回" />
+    <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="初始化">
+      <change afterPath="$PROJECT_DIR$/controllers/api/education.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controllers/api/room.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copyright/anderyly.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gin.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sshConfigs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/webServers.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/conf/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/login.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/login.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/store.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/store.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/room.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/room.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers/api.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/api.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,6 +84,7 @@
     <option name="indexEntireGoPath" value="false" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/controllers/api/education.go" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/main.go" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -78,26 +99,34 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
     "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
     "WebServerToolWindowFactoryState": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.mappings": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.symlinks": "true",
+    "WebServerToolWindowPanel.toolwindow.show.date": "false",
+    "WebServerToolWindowPanel.toolwindow.show.permissions": "false",
+    "WebServerToolWindowPanel.toolwindow.show.size": "false",
     "configurable..is.expanded": "false",
     "configurable.GoLibrariesConfigurable.is.expanded": "true",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "F:/data/go/src/gin",
-    "settings.editor.selected.configurable": "vcs.Git"
+    "last_opened_file_path": "E:/go/src/dragonfly/models",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\go\src\dragonfly\models" />
+      <recent name="E:\go\src\dragonfly\controllers\api" />
       <recent name="F:\data\go\src\dragonfly\models" />
       <recent name="F:\data\go\src\dragonfly\controllers\api" />
       <recent name="F:\data\go\src\gin\controllers\admin" />
-      <recent name="F:\data\go\src\gin\models" />
-      <recent name="$PROJECT_DIR$/models" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\data\go\src\gin\models" />
@@ -225,7 +254,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="1.更正大师头像&#10;2.增加百度小程序登入" />
     <MESSAGE value="增加腾讯云sdk" />
     <MESSAGE value="1.增加用户注册时创建im账号&#10;2.增加用户发送红包功能" />
     <MESSAGE value="1.增加后台文章分类" />
@@ -250,7 +278,8 @@
     <MESSAGE value="backup" />
     <MESSAGE value="余额不足返回406状态码 增加文案分享" />
     <MESSAGE value="1. 修改提问支付类型错误&#10;2. 增加统一支付oid返回" />
-    <option name="LAST_COMMIT_MESSAGE" value="1. 修改提问支付类型错误&#10;2. 增加统一支付oid返回" />
+    <MESSAGE value="初始化" />
+    <option name="LAST_COMMIT_MESSAGE" value="初始化" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

@@ -12,17 +12,18 @@ type RoomModel struct {
 
 type Room struct {
 	BaseModel
-	StoreId   int64  `json:"store_id"`
-	Type      int    `json:"type"`
-	Name      string `json:"name"`
-	Address   string `json:"address"`
-	Mobile    string `json:"mobile"`
-	Introduce string `json:"introduce"`
-	Attention string `json:"attention"`
-	Guide     string `json:"guide"`
-	Cancel    string `json:"cancel"`
-	Image     string `json:"image"`
-	Video     string `json:"video"`
+	StoreId   int64   `json:"store_id"`
+	Type      int     `json:"type"`
+	Name      string  `json:"name"`
+	Address   string  `json:"address"`
+	Mobile    string  `json:"mobile"`
+	Introduce string  `json:"introduce"`
+	Attention string  `json:"attention"`
+	Guide     string  `json:"guide"`
+	Cancel    string  `json:"cancel"`
+	Image     string  `json:"image"`
+	Video     string  `json:"video"`
+	Size      float64 `json:"size"`
 }
 
 func (Room) TableName() string {

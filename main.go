@@ -7,6 +7,7 @@ import (
 	"dragonfly/task"
 	"github.com/gin-gonic/gin"
 	"github.com/robfig/cron/v3"
+	"log"
 	"net/http"
 )
 
@@ -22,9 +23,11 @@ func main() {
 
 	// 开启定时任务
 	c := cron.New()
-	//c.AddFunc("45 2 * * *", task.InviteAmount)
-	//c.AddFunc("@every 1s", task.Start)
-	c.AddFunc("@every 10m", task.Start)
+	_, err := c.AddFunc("@every 10m", task.Start)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 	c.Start()
 
 	r = gin.Default()
@@ -33,7 +36,7 @@ func main() {
 	r.StaticFS("/static/", http.Dir("./static"))
 	r = routers.GinRouter(r)
 
-	err := r.Run(":8080")
+	err = r.Run(":" + ay.Yaml.GetString("port"))
 	if err != nil {
 		panic(err.Error())
 	}

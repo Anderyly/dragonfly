@@ -36,6 +36,8 @@ func (con LoginController) Login(c *gin.Context) {
 
 	isR, openid := con.GetOpenid(data.Code)
 
+	log.Println(isR, openid)
+
 	if !isR {
 		ay.Json{}.Msg(c, 400, openid, gin.H{})
 	} else {
@@ -78,7 +80,7 @@ func (con LoginController) GetOpenid(code string) (bool, string) {
 	json.Unmarshal(body, &ms)
 	log.Println(string(body))
 
-	if ms.Errcode != 0 && ms.Openid != "" {
+	if ms.Errcode != 0 || ms.Openid == "" {
 		return false, ms.Errmsg
 	} else {
 		return true, ms.Openid
