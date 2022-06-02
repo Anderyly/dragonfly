@@ -19,7 +19,7 @@ type User struct {
 	NickName    string  `gorm:"column:nickname" json:"nickname"`
 	Amount      float64 `gorm:"column:amount" json:"amount"`
 	EffectiveAt MyTime  `gorm:"column:effective_at" json:"effective_at"`
-	VipNum      int     `gorm:"column:vip_num" json:"vip_num"`
+	VipNum      float64 `gorm:"column:vip_num" json:"vip_num"`
 }
 
 func (User) TableName() string {

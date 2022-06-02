@@ -125,3 +125,8 @@ func (con CardController) User(c *gin.Context) {
 		})
 	}
 }
+
+// Pay 会员卡办理
+func (con CardController) Pay(c *gin.Context) {
+
+}

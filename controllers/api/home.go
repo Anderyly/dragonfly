@@ -17,6 +17,7 @@ type HomeController struct {
 }
 
 func (con HomeController) Banner(c *gin.Context) {
+
 	var list []models.Banner
 	ay.Db.Order("sort asc").Find(&list)
 

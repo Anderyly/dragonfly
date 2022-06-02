@@ -41,14 +41,34 @@ func ApiRouters(r *gin.RouterGroup) {
 	apiGroup.POST("class_spelling/detail", api.SpellingController{}.Detail)
 	apiGroup.POST("class_spelling/subscribe", api.SpellingController{}.Subscribe)
 
+	// 训练营
+	apiGroup.GET("train/list", api.TrainController{}.List)
+	apiGroup.POST("train/detail", api.TrainController{}.Detail)
+	apiGroup.POST("train/subscribe", api.TrainController{}.Subscribe)
+	apiGroup.POST("train/channel", api.TrainController{}.Channel)
+
 	// 反馈
 	apiGroup.GET("feedback/list", api.FeedbackController{}.List)
 	apiGroup.POST("feedback/add", api.FeedbackController{}.Add)
 
 	// 优惠卷
 	apiGroup.GET("coupon/user", api.CouponController{}.User)
+	apiGroup.POST("coupon/select", api.CouponController{}.Select)
 
 	// 次卡
 	apiGroup.GET("card/list", api.CardController{}.List)
 	apiGroup.GET("card/user", api.CardController{}.User)
+	apiGroup.GET("card/pay", api.CardController{}.Pay) // 待完成
+
+	// vip
+	apiGroup.GET("vip/amount", api.VipController{}.Amount)
+	apiGroup.GET("vip/pay", api.VipController{}.Pay) // 待完成
+
+	// 充值
+	apiGroup.GET("recharge/amount", api.RechargeController{}.Amount)
+	apiGroup.POST("recharge/pay", api.RechargeController{}.Pay) // 待完成
+
+	// 异步
+	apiGroup.Any("notify/wechat", api.NotifyController{}.Wechat) // 待完成
+
 }

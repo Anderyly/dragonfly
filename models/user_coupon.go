@@ -19,6 +19,7 @@ type Coupon struct {
 	Des         string  `json:"des"`
 	Amount      float64 `json:"amount"`
 	EffectiveAt MyTime  `json:"effective_at"`
+	UseAt       MyTime  `json:"use_at"`
 	Status      int     `json:"status"`
 }
 

@@ -28,21 +28,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="增加次卡以及优惠卷">
-      <change afterPath="$PROJECT_DIR$/controllers/api/card.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controllers/api/coupon.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controllers/api/feedback.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controllers/api/spelling.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/card.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/class_spelling.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/class_spelling_ask.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/class_spelling_log.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/education.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/user_card.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/user_coupon.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/user_feedback.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/vip_level.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controllers/api/notify.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controllers/api/pay.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controllers/api/recharge.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controllers/api/train.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controllers/api/vip.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/amount.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/train.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/train_log.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/user_channel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/vip.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/conf/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/card.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/card.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/common.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/common.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/coupon.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/coupon.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/api/home.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/home.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/alipay/202202231536182290000001.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/order.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/order.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user_coupon.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user_coupon.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers/api.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/api.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +119,7 @@
     "configurable..is.expanded": "false",
     "configurable.GoLibrariesConfigurable.is.expanded": "true",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "E:/go/src/dragonfly",
+    "last_opened_file_path": "E:/go/src/shop",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
@@ -141,7 +149,7 @@
       <method v="2" />
     </configuration>
     <configuration name="go build linux" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="gin" />
+      <module name="dragonfly" />
       <working_directory value="$PROJECT_DIR$" />
       <envs>
         <env name="GOARCH" value="amd64" />

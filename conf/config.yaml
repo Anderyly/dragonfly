@@ -1,14 +1,20 @@
 # conf/config.yaml
 mysql:
-  localhost: 127.0.0.1
+  localhost: 111.229.109.208
   port: 3306
-  user: root
-  password: root
+  user: dragonfly
+  password: dragonfly
   database: dragonfly
+
+channel:
+  num: 1
+  hour: 5
 
 wechat:
   appid: wx9fea5106cf08d1ee
   secret: 5ce6ac99cde2f56b392624d118ec4393
+  mchId: 1626666582
+  key: 957B9F367701C77F6F68D511A5C51B10
 
 port: 9090
 
