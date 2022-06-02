@@ -231,6 +231,9 @@ func (con TrainController) Subscribe(c *gin.Context) {
 		amount = amount * (vipLevel.SpellClass / 10)
 	}
 
+	if amount <= 0.01 {
+		amount = 0.01
+	}
 	isOrder, outTradeNo, order := CommonController{}.MakeOrder(2, 4, "训练营预约", requestUser.Id, coupon.Id, amount, res.Amount, c.ClientIP(), "", 0, res.Id, vipLevel.SpellClass)
 	if isOrder == 0 {
 		ay.Json{}.Msg(c, 400, outTradeNo, gin.H{})
@@ -254,6 +257,7 @@ func (con TrainController) Subscribe(c *gin.Context) {
 			return
 		}
 		requestUser.Amount -= amount
+		requestUser.VipNum += res.Amount
 		tx := ay.Db.Begin()
 
 		// 扣除用户余额

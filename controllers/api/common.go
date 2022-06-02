@@ -175,6 +175,11 @@ func (con CommonController) Back(oid int64) (bool, string) {
 	ay.Db.First(&user, order.Uid)
 
 	tx := ay.Db.Begin()
+
+	if order.Type != 5 {
+		user.VipNum -= order.OldAmount
+	}
+
 	// 退还金额 余额
 	if order.PayType == 2 {
 		user.Amount += order.Amount
@@ -207,4 +212,19 @@ func (con CommonController) Back(oid int64) (bool, string) {
 	tx.Commit()
 
 	return true, "success"
+}
+
+func (con CommonController) UserAmountPay(user *models.User, amount float64) (bool, string, *models.User) {
+
+	if user.Amount < amount {
+		return false, "用户余额不足", user
+	}
+
+	user.Amount -= amount
+	if err := ay.Db.Save(&user).Error; err != nil {
+		return false, "请联系管理员", user
+	} else {
+		return true, "success", user
+	}
+
 }

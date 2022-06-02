@@ -53,6 +53,12 @@ func (con UserController) Info(c *gin.Context) {
 		vipNextLevelNum = vipNextLevel.Num
 	}
 
+	var orderCount int64
+	ay.Db.Model(&models.Order{}).Where("uid = ?", user.Id).Count(&orderCount)
+
+	var cardCount int64
+	ay.Db.Model(&models.UserCard{}).Where("uid = ?", user.Id).Count(&cardCount)
+
 	ay.Json{}.Msg(c, 200, "success", gin.H{
 		"nickname":            user.NickName,
 		"avatar":              user.Avatar,
@@ -64,5 +70,56 @@ func (con UserController) Info(c *gin.Context) {
 		"vip_next_level_name": vipNextLevelName,
 		"vip_next_level_num":  vipNextLevelNum,
 		"vip":                 vipLevel,
+		"order_num":           orderCount,
+		"card_num":            cardCount,
 	})
+}
+
+type orderUserControllerForm struct {
+	Page int `form:"page" binding:"required" label:"页码"`
+}
+
+func (con UserController) Order(c *gin.Context) {
+	var data orderUserControllerForm
+	if err := c.ShouldBind(&data); err != nil {
+		ay.Json{}.Msg(c, 400, ay.Validator{}.Translate(err), gin.H{})
+		return
+	}
+
+	page := data.Page - 1
+
+	isAuth, code, msg, user := Auth(GetToken(Token))
+
+	if !isAuth {
+		ay.Json{}.Msg(c, code, msg, gin.H{})
+		return
+	}
+
+	var order []models.Order
+	ay.Db.Where("uid = ?", user.Id).
+		Offset(page * Limit).
+		Limit(Limit).
+		Find(&order)
+
+	var list []gin.H
+	for _, v := range order {
+		list = append(list, gin.H{
+			"id":         v.Id,
+			"type":       v.Type,
+			"cid":        v.Cid,
+			"status":     v.Status,
+			"op":         v.Op,
+			"created_at": v.CreatedAt.Unix(),
+		})
+	}
+
+	if list == nil {
+		ay.Json{}.Msg(c, 200, "success", gin.H{
+			"list": []string{},
+		})
+	} else {
+		ay.Json{}.Msg(c, 200, "success", gin.H{
+			"list": list,
+		})
+	}
 }

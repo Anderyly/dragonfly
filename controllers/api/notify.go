@@ -66,15 +66,45 @@ func (con NotifyController) Wechat(c *gin.Context) {
 	}
 
 	res := 0
+	row := false
 
 	switch order.Type {
 	case 5:
 		// 增加余额
 		res = con.AdduserAmount(order)
+	case 4:
+		// 训练营
+		if err := ay.Db.Create(&models.TrainLog{
+			TrainId: order.Cid,
+			Uid:     order.Uid,
+			Oid:     order.Id,
+		}).Error; err != nil {
+			res = 0
+		} else {
+			var user models.User
+			ay.Db.First(&user, order.Uid)
+			user.VipNum += order.OldAmount
+			ay.Db.Save(&user)
+			res = 1
+		}
+	case 3:
+		// 会员充值
+		var user models.User
+		ay.Db.First(&user, order.Uid)
+		var vip models.Vip
+		ay.Db.First(&vip, order.Cid)
+		row = models.UserModel{}.SetVip(user, vip.Effective, vip.Amount)
+	case 2:
+		var card models.Card
+		ay.Db.First(&card, order.Cid)
+		row = models.UserCardModel{}.Add(card.Id, order.Uid, card.Effective, order.OldAmount)
+	case 1:
+		// 舞蹈室
 	}
 	log.Println(res)
+	log.Println(row)
 
-	if res == 1 {
+	if res == 1 || row == true {
 		stamp, _ := time.ParseInLocation("2006-01-02 15:04:05", time.Now().Format("2006-01-02 15:04:05"), time.Local)
 		// 优惠卷设置过期
 		var coupon models.Coupon
@@ -125,7 +155,7 @@ func (con NotifyController) AdduserAmount(order models.Order) int {
 	}
 
 	user.Amount = amount
-	user.VipNum += order.OldAmount
+	//user.VipNum += order.OldAmount
 	tx := ay.Db.Begin()
 	log.Println(user)
 	if err := tx.Save(&user).Error; err != nil {

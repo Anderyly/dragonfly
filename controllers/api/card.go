@@ -11,6 +11,7 @@ import (
 	"dragonfly/ay"
 	"dragonfly/models"
 	"github.com/gin-gonic/gin"
+	"time"
 )
 
 type CardController struct {
@@ -126,7 +127,88 @@ func (con CardController) User(c *gin.Context) {
 	}
 }
 
-// Pay 会员卡办理
+type payCardControllerForm struct {
+	Id       int64  `form:"id" binding:"required" label:"次卡id"`
+	CouponId int64  `form:"coupon_id" label:"优惠卷id"`
+	Code     string `form:"code" binding:"required" label:"微信code"`
+	PayType  int    `form:"pay_type" binding:"required" label:"支付方式"`
+}
+
 func (con CardController) Pay(c *gin.Context) {
+	var data payCardControllerForm
+	if err := c.ShouldBind(&data); err != nil {
+		ay.Json{}.Msg(c, 400, ay.Validator{}.Translate(err), gin.H{})
+		return
+	}
+
+	isAuth, code, msg, requestUser := Auth(GetToken(Token))
+
+	if !isAuth {
+		ay.Json{}.Msg(c, code, msg, gin.H{})
+		return
+	}
+
+	// 获取会员卡信息
+	var card models.Card
+	ay.Db.First(&card, data.Id)
+	if card.Id == 0 {
+		ay.Json{}.Msg(c, 400, "次卡不存在", gin.H{})
+		return
+	}
+
+	// 优惠卷判断
+	isCoupon, couponMsg, coupon := CommonController{}.IsCoupon(requestUser.Id, data.CouponId, 5)
+
+	if data.CouponId != 0 {
+		if !isCoupon {
+			ay.Json{}.Msg(c, 400, couponMsg, gin.H{})
+			return
+		}
+	}
+
+	amount := card.Amount - coupon.Amount
+
+	isOrder, outTradeNo, order := CommonController{}.MakeOrder(2, 2, "购买次卡", requestUser.Id, coupon.Id, amount, card.Amount, c.ClientIP(), "", 0, card.Id, 0)
+	if isOrder == 0 {
+		ay.Json{}.Msg(c, 400, outTradeNo, gin.H{})
+		return
+	}
+
+	if data.PayType == 1 {
+		isC, msg, info := PayController{}.Wechat(data.Code, order.Des, order.OutTradeNo, c.ClientIP(), amount)
+
+		if !isC {
+			ay.Json{}.Msg(c, 400, msg, gin.H{})
+			return
+		}
+
+		ay.Json{}.Msg(c, 200, "success", gin.H{
+			"info": info,
+		})
+	} else {
+		is, msg, _ := CommonController{}.UserAmountPay(&requestUser, amount)
+		if is {
+			tx := ay.Db.Begin()
+			order.Status = 1
+			stamp, _ := time.ParseInLocation("2006-01-02 15:04:05", time.Now().Format("2006-01-02 15:04:05"), time.Local)
+			order.PayAt = models.MyTime{Time: stamp}
+			if err := tx.Save(&order).Error; err != nil {
+				tx.Rollback()
+				ay.Json{}.Msg(c, 400, "请联系管理员", gin.H{})
+				return
+			}
+			isUserCard := models.UserCardModel{}.Add(card.Id, requestUser.Id, card.Effective, card.Amount)
+			if !isUserCard {
+				tx.Rollback()
+				ay.Json{}.Msg(c, 400, "请联系管理员", gin.H{})
+				return
+			}
+			tx.Commit()
+			ay.Json{}.Msg(c, 200, "用户支付成功", gin.H{})
+		} else {
+			ay.Json{}.Msg(c, 400, msg, gin.H{})
+
+		}
+	}
 
 }

@@ -18,6 +18,7 @@ type Card struct {
 	HourAmount    float64 `json:"hour_amount"`
 	AllHour       int     `json:"all_hour"`
 	EffectiveText string  `json:"effective_text"`
+	Effective     int     `json:"effective"`
 }
 
 func (Card) TableName() string {

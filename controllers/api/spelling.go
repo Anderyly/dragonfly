@@ -36,7 +36,7 @@ func (con SpellingController) List(c *gin.Context) {
 	ay.Db.Select("id,name,start_date,back_image").
 		Where("store_id = ?", data.StoreId).
 		Offset(page * Limit).
-		Limit(Limit).Debug().
+		Limit(Limit).
 		Find(&list)
 
 	var r []gin.H

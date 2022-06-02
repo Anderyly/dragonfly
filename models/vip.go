@@ -17,6 +17,7 @@ type Vip struct {
 	OldAmount float64 `json:"old_amount"`
 	Discount  float64 `json:"discount"`
 	Sort      int     `json:"sort"`
+	Effective int     `json:"effective"`
 }
 
 func (Vip) TableName() string {

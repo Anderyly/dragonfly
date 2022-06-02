@@ -22,6 +22,7 @@ func ApiRouters(r *gin.RouterGroup) {
 
 	// 用户
 	apiGroup.POST("user/info", api.UserController{}.Info)
+	apiGroup.GET("user/order", api.UserController{}.Order)
 
 	// 分店
 	apiGroup.GET("branch/list", api.StoreController{}.List)
@@ -58,11 +59,11 @@ func ApiRouters(r *gin.RouterGroup) {
 	// 次卡
 	apiGroup.GET("card/list", api.CardController{}.List)
 	apiGroup.GET("card/user", api.CardController{}.User)
-	apiGroup.GET("card/pay", api.CardController{}.Pay) // 待完成
+	apiGroup.POST("card/pay", api.CardController{}.Pay) // 待完成
 
 	// vip
 	apiGroup.GET("vip/amount", api.VipController{}.Amount)
-	apiGroup.GET("vip/pay", api.VipController{}.Pay) // 待完成
+	apiGroup.POST("vip/pay", api.VipController{}.Pay)
 
 	// 充值
 	apiGroup.GET("recharge/amount", api.RechargeController{}.Amount)
