@@ -33,7 +33,7 @@ func (con StoreController) List(c *gin.Context) {
 	var list []models.BranchStore
 	ay.Db.Select("id,name,label,image,address").
 		Offset(page * Limit).
-		Limit(Limit).Debug().
+		Limit(Limit).
 		Find(&list)
 
 	var r []gin.H

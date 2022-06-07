@@ -3,6 +3,7 @@ package api
 import (
 	"dragonfly/ay"
 	"dragonfly/models"
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	qrcode "github.com/skip2/go-qrcode"
@@ -152,7 +153,7 @@ func (con CommonController) GetChanelCount(channelNum int, uid int64) (bool, str
 	// 查询当月取消次数
 	var channelCount int64
 	ay.Db.Model(models.UserChannel{}).
-		Where("(DATE_FORMAT(created_at, '%Y%m') = ?) AND uid = ?", time.Now().Format("200601"), uid).Debug().
+		Where("(DATE_FORMAT(created_at, '%Y%m') = ?) AND uid = ?", time.Now().Format("200601"), uid).
 		Count(&channelCount)
 
 	if channelNum <= int(channelCount) {
@@ -177,19 +178,23 @@ func (con CommonController) Back(oid int64) (bool, string) {
 	tx := ay.Db.Begin()
 
 	if order.Type != 5 {
-		user.VipNum -= order.OldAmount
+		user.VipNum -= order.Amount
 	}
 
 	// 退还金额 余额
 	if order.PayType == 2 {
 		user.Amount += order.Amount
-		if err := tx.Save(&user).Error; err != nil {
-			tx.Rollback()
-			return false, "退还失败"
-		}
 	} else {
 		is, msg := PayController{}.WechatRefund(order.OutTradeNo, order.Amount)
-		return is, msg
+		if !is {
+			tx.Rollback()
+			return false, msg
+		}
+	}
+
+	if err := tx.Save(&user).Error; err != nil {
+		tx.Rollback()
+		return false, "退还失败"
 	}
 
 	// 退还优惠卷
@@ -201,6 +206,26 @@ func (con CommonController) Back(oid int64) (bool, string) {
 		if err := tx.Save(&coupon).Error; err != nil {
 			tx.Rollback()
 			return false, "优惠卷退还失败"
+		}
+	}
+
+	// 退还次卡
+	if order.CardId != 0 {
+		type cv struct {
+			Num  int      `json:"num"`
+			Time []string `json:"time"`
+			Ymd  int      `json:"ymd"`
+		}
+		var cc cv
+		json.Unmarshal([]byte(order.Content), &cc)
+
+		var card models.UserCard
+		ay.Db.Where("id = ?", order.CardId).First(&card)
+		card.Status = 0
+		card.UseHour -= cc.Num
+		if err := tx.Save(&card).Error; err != nil {
+			tx.Rollback()
+			return false, "次卡退还失败"
 		}
 	}
 

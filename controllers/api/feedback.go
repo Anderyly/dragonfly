@@ -39,7 +39,7 @@ func (con FeedbackController) List(c *gin.Context) {
 	var list []models.Feedback
 	ay.Db.Where("uid = ?", requestUser.Id).
 		Offset(page * Limit).
-		Limit(Limit).Debug().
+		Limit(Limit).
 		Order("created_at desc").
 		Find(&list)
 

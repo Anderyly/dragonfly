@@ -11,7 +11,6 @@ import (
 	"dragonfly/ay"
 	"dragonfly/models"
 	"github.com/gin-gonic/gin"
-	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -87,8 +86,7 @@ func (con TrainController) GetStatus(requestUser models.User, train models.Train
 	// 预约人数
 	var count int64
 	ay.Db.Model(&models.TrainLog{}).Where("train_id = ?", train.Id).Count(&count)
-	log.Println(int(count))
-	log.Println(train.MaxUser)
+
 	if int(count) >= train.MaxUser {
 		status = 2
 	} else {
@@ -365,8 +363,6 @@ func (con TrainController) Channel(c *gin.Context) {
 		return
 	}
 
-	log.Println(res.StartDate.Unix() - time.Now().Unix())
-	log.Println(channelHour * 3600)
 	if res.StartDate.Unix()-time.Now().Unix() < int64(channelHour*3600) {
 		ay.Json{}.Msg(c, 400, "距离开始不足"+strconv.Itoa(channelHour)+"小时，无法取消", gin.H{})
 		return
@@ -391,6 +387,7 @@ func (con TrainController) Channel(c *gin.Context) {
 			Type: 1,
 			Cid:  res.Id,
 			Uid:  requestUser.Id,
+			Oid:  order.Id,
 		}).Error; err != nil {
 			tx.Rollback()
 		} else {

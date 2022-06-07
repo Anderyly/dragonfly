@@ -83,7 +83,7 @@ func (con NotifyController) Wechat(c *gin.Context) {
 		} else {
 			var user models.User
 			ay.Db.First(&user, order.Uid)
-			user.VipNum += order.OldAmount
+			user.VipNum += order.Amount
 			ay.Db.Save(&user)
 			res = 1
 		}
@@ -97,7 +97,7 @@ func (con NotifyController) Wechat(c *gin.Context) {
 	case 2:
 		var card models.Card
 		ay.Db.First(&card, order.Cid)
-		row = models.UserCardModel{}.Add(card.Id, order.Uid, card.Effective, order.OldAmount)
+		row = models.UserCardModel{}.Add(card.Id, card.AllHour, order.Uid, card.Effective, order.OldAmount)
 	case 1:
 		// 舞蹈室
 	}

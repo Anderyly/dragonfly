@@ -35,7 +35,7 @@ func (con EducationController) List(c *gin.Context) {
 	ay.Db.Select("id,name,avatar,label,wechat,introduce").
 		Where("store_id = ?", data.StoreId).
 		Offset(page * Limit).
-		Limit(Limit).Debug().
+		Limit(Limit).
 		Find(&list)
 
 	var r []gin.H

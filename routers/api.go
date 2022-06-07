@@ -31,6 +31,9 @@ func ApiRouters(r *gin.RouterGroup) {
 	// 舞蹈室
 	apiGroup.GET("room/list", api.RoomController{}.List)
 	apiGroup.POST("room/detail", api.RoomController{}.Detail)
+	apiGroup.GET("room/subscribe", api.RoomController{}.Subscribe)
+	apiGroup.POST("room/pay", api.RoomController{}.Pay)
+	apiGroup.POST("room/channel", api.RoomController{}.Channel)
 
 	// 私教
 	apiGroup.GET("education/list", api.EducationController{}.List)
@@ -59,7 +62,8 @@ func ApiRouters(r *gin.RouterGroup) {
 	// 次卡
 	apiGroup.GET("card/list", api.CardController{}.List)
 	apiGroup.GET("card/user", api.CardController{}.User)
-	apiGroup.POST("card/pay", api.CardController{}.Pay) // 待完成
+	apiGroup.POST("card/pay", api.CardController{}.Pay)
+	apiGroup.POST("card/select", api.CardController{}.Select)
 
 	// vip
 	apiGroup.GET("vip/amount", api.VipController{}.Amount)
@@ -67,7 +71,7 @@ func ApiRouters(r *gin.RouterGroup) {
 
 	// 充值
 	apiGroup.GET("recharge/amount", api.RechargeController{}.Amount)
-	apiGroup.POST("recharge/pay", api.RechargeController{}.Pay) // 待完成
+	apiGroup.POST("recharge/pay", api.RechargeController{}.Pay)
 
 	// 异步
 	apiGroup.Any("notify/wechat", api.NotifyController{}.Wechat) // 待完成

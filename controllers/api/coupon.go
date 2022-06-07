@@ -11,6 +11,7 @@ import (
 	"dragonfly/ay"
 	"dragonfly/models"
 	"github.com/gin-gonic/gin"
+	"time"
 )
 
 type CouponController struct {
@@ -40,19 +41,24 @@ func (con CouponController) User(c *gin.Context) {
 	ay.Db.Select("id,name,sub_name,effective_at,des,status").
 		Where("uid = ?", requestUser.Id).
 		Offset(page * Limit).
-		Limit(Limit).Debug().
+		Limit(Limit).
 		Order("status desc").
 		Find(&coupon)
 
 	var list []gin.H
 	for _, v := range coupon {
+		status := v.Status
+		if v.EffectiveAt.Unix() < time.Now().Unix() && v.Status == 0 {
+			v.Status = 2
+			ay.Db.Save(&v)
+		}
 		list = append(list, gin.H{
 			"id":           v.Id,
 			"name":         v.Name,
 			"sub_name":     v.SubName,
 			"des":          v.Des,
 			"effective_at": v.EffectiveAt,
-			"status":       v.Status,
+			"status":       status,
 		})
 	}
 
@@ -92,19 +98,25 @@ func (con CouponController) Select(c *gin.Context) {
 	ay.Db.Select("id,name,sub_name,effective_at,des,status").
 		Where("uid = ? AND FIND_IN_SET(?,type)", requestUser.Id, data.Type).
 		Offset(page * Limit).
-		Limit(Limit).Debug().
+		Limit(Limit).
 		Order("status desc").
 		Find(&coupon)
 
 	var list []gin.H
 	for _, v := range coupon {
+		status := v.Status
+		if v.EffectiveAt.Unix() < time.Now().Unix() && v.Status == 0 {
+			v.Status = 2
+			ay.Db.Save(&v)
+		}
+
 		list = append(list, gin.H{
 			"id":           v.Id,
 			"name":         v.Name,
 			"sub_name":     v.SubName,
 			"des":          v.Des,
 			"effective_at": v.EffectiveAt,
-			"status":       v.Status,
+			"status":       status,
 		})
 	}
 

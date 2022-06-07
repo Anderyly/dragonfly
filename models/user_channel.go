@@ -12,6 +12,7 @@ type UserChannel struct {
 	Type int   `json:"type"`
 	Uid  int64 `json:"uid"`
 	Cid  int64 `json:"cid"`
+	Oid  int64 `json:"oid"`
 }
 
 func (UserChannel) TableName() string {

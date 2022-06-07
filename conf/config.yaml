@@ -20,6 +20,6 @@ port: 9090
 
 vip_default_level: G0
 
-#domain: http://192.168.2.111:9090
-domain: https://dragonfly.sszi.cc
+domain: http://192.168.2.111:9090
+#domain: https://dragonfly.sszi.cc
 

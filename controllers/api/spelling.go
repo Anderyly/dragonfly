@@ -216,7 +216,7 @@ func (con SpellingController) Ask(c *gin.Context) {
 	var list []models.ClassSpellingAsk
 	ay.Db.Where("spelling_id = ?", data.SpellingId).
 		Offset(page * Limit).
-		Limit(Limit).Debug().
+		Limit(Limit).
 		Order("created_at desc").
 		Find(&list)
 

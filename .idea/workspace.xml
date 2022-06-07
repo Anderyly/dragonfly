@@ -27,21 +27,25 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="增加退款">
+    <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="微信支付证书">
+      <change afterPath="$PROJECT_DIR$/models/config.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/room_subscribe.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/user_room_subscribe.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conf/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/conf/config.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/api/card.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/card.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/api/common.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/common.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/coupon.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/coupon.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/education.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/education.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/feedback.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/feedback.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/api/notify.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/notify.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/room.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/room.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/api/spelling.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/spelling.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/store.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/store.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/api/train.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/train.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/api/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/api/vip.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/vip.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/alipay/202202231536182290000001.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/card.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/card.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/user_card.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user_card.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/vip.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/vip.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user_channel.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user_channel.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/api.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/api.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -102,7 +106,7 @@
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;WebServerToolWindowPanel.toolwindow.highlight.mappings&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowPanel.toolwindow.highlight.symlinks&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowPanel.toolwindow.show.date&quot;: &quot;false&quot;,
@@ -111,7 +115,7 @@
     &quot;configurable..is.expanded&quot;: &quot;false&quot;,
     &quot;configurable.GoLibrariesConfigurable.is.expanded&quot;: &quot;true&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/go/src/shop&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/go/src/dragonfly/models&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
@@ -250,8 +254,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="1.增加后台文章分类" />
-    <MESSAGE value="1.更改提问&#10;2.解梦返回20条数据&#10;3.测算将铜币改成元" />
     <MESSAGE value="1.更改后台排序&#10;2.增加古籍分类" />
     <MESSAGE value="1.增加红包退回定时任务&#10;2.增加奖励记录&#10;3.去除消费记录显示的奖励记录" />
     <MESSAGE value="1.修改大师头像问题&#10;2.增加用户中心返回中文地址&#10;3.修改收藏古籍以及文章图片不显示" />
@@ -275,7 +277,9 @@
     <MESSAGE value="初始化" />
     <MESSAGE value="增加次卡以及优惠卷" />
     <MESSAGE value="增加退款" />
-    <option name="LAST_COMMIT_MESSAGE" value="增加退款" />
+    <MESSAGE value="修改训练营 会员卡回调" />
+    <MESSAGE value="微信支付证书" />
+    <option name="LAST_COMMIT_MESSAGE" value="微信支付证书" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
