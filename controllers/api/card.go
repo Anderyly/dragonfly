@@ -19,6 +19,7 @@ type CardController struct {
 
 type listCardControllerForm struct {
 	Page int `form:"page" binding:"required" label:"页码"`
+	Type int `form:"type" binding:"required" label:"类型"`
 }
 
 func (con CardController) List(c *gin.Context) {
@@ -31,9 +32,10 @@ func (con CardController) List(c *gin.Context) {
 	page := data.Page - 1
 
 	var coupon []models.Card
-	ay.Db.Offset(page * Limit).
+	ay.Db.Offset(page*Limit).
 		Limit(Limit).
 		Order("created_at asc").
+		Where("type = ?", data.Type).
 		Find(&coupon)
 
 	var list []gin.H

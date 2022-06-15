@@ -12,7 +12,7 @@ type Banner struct {
 	Type  int    `json:"type"`
 	Cover string `json:"cover"`
 	Image string `json:"image"`
-	Url   string `json:"url"`
+	Link  string `json:"link"`
 	Sort  int    `json:"sort"`
 }
 

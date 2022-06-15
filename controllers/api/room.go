@@ -276,6 +276,14 @@ func (con RoomController) Pay(c *gin.Context) {
 			ay.Json{}.Msg(c, 400, "次卡已过期", gin.H{})
 			return
 		}
+		var card models.Card
+		ay.Db.First(&card, userCard.CardId)
+		if card.Type != 5 {
+			if card.Type != res.Type {
+				ay.Json{}.Msg(c, 400, "次卡类型不对", gin.H{})
+				return
+			}
+		}
 		cardNum := userCard.AllHour - userCard.UseHour
 		log.Println(cardNum)
 

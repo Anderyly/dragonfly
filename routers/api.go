@@ -17,6 +17,8 @@ func ApiRouters(r *gin.RouterGroup) {
 	apiGroup := r.Group("/api/")
 
 	apiGroup.POST("login", api.LoginController{}.Login)
+	apiGroup.GET("main", api.HomeController{}.Main)
+	apiGroup.GET("chart", api.HomeController{}.Chart)
 
 	apiGroup.GET("banner", api.HomeController{}.Banner)
 
@@ -32,7 +34,7 @@ func ApiRouters(r *gin.RouterGroup) {
 	apiGroup.GET("room/list", api.RoomController{}.List)
 	apiGroup.POST("room/detail", api.RoomController{}.Detail)
 	apiGroup.GET("room/subscribe", api.RoomController{}.Subscribe)
-	apiGroup.POST("room/pay", api.RoomController{}.Pay)
+	apiGroup.POST("room/pay", api.RoomController{}.Pay) // 测试
 	apiGroup.POST("room/channel", api.RoomController{}.Channel)
 
 	// 私教
@@ -74,6 +76,6 @@ func ApiRouters(r *gin.RouterGroup) {
 	apiGroup.POST("recharge/pay", api.RechargeController{}.Pay)
 
 	// 异步
-	apiGroup.Any("notify/wechat", api.NotifyController{}.Wechat) // 待完成
+	apiGroup.Any("notify/wechat", api.NotifyController{}.Wechat)
 
 }
