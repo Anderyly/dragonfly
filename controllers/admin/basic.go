@@ -53,6 +53,14 @@ func (con BasicController) Option(c *gin.Context) {
 		VipPayInstructions string  `form:"vip_pay_instructions"`
 		KfLink             string  `form:"kf_link"`
 		KfMobile           string  `form:"kf_mobile"`
+
+		CouponType      string  `form:"coupon_type"`
+		CouponName      string  `form:"coupon_name"`
+		CouponSubName   string  `form:"coupon_sub_name"`
+		CouponDes       string  `form:"coupon_des"`
+		CouponAmount    float64 `form:"coupon_amount"`
+		CouponEffective int     `form:"coupon_effective"`
+		GiveCard        int64   `form:"give_card"`
 	}
 	var data optionForm
 	if err := c.ShouldBind(&data); err != nil {
@@ -76,6 +84,14 @@ func (con BasicController) Option(c *gin.Context) {
 	res.VipPayDesc = data.VipPayDesc
 	res.VipPromotionDesc = data.VipPromotionDesc
 	res.VipPayInstructions = data.VipPayInstructions
+
+	res.CouponType = data.CouponType
+	res.CouponName = data.CouponName
+	res.CouponSubName = data.CouponSubName
+	res.CouponDes = data.CouponDes
+	res.CouponAmount = data.CouponAmount
+	res.CouponEffective = data.CouponEffective
+	res.GiveCard = data.GiveCard
 
 	if err := ay.Db.Save(&res).Error; err != nil {
 		ay.Json{}.Msg(c, 400, "修改失败", gin.H{})

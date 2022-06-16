@@ -98,7 +98,7 @@ func (con LevelController) Option(c *gin.Context) {
 		SpellClass    float64 `form:"spell_class"`
 		Chanel        int     `form:"chanel"`
 		AdvanceChanel int     `form:"advance_chanel"`
-		GiveCard      int     `form:"give_card"`
+		GiveCard      string  `form:"give_card"`
 		GiveCoupon    int     `form:"give_coupon"`
 	}
 

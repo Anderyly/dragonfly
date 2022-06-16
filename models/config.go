@@ -22,6 +22,13 @@ type Config struct {
 	VipPayInstructions string  `json:"vip_pay_instructions"`
 	KfLink             string  `json:"kf_link"`
 	KfMobile           string  `json:"kf_mobile"`
+	CouponType         string  `json:"coupon_type"`
+	CouponName         string  `json:"coupon_name"`
+	CouponSubName      string  `json:"coupon_sub_name"`
+	CouponDes          string  `json:"coupon_des"`
+	CouponAmount       float64 `json:"coupon_amount"`
+	CouponEffective    int     `json:"coupon_effective"`
+	GiveCard           int64   `json:"give_card"`
 }
 
 func (Config) TableName() string {

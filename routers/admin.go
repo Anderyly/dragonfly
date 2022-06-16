@@ -30,6 +30,12 @@ func AdminRouters(r *gin.RouterGroup) {
 	adminGroup.POST("account_card/delete", admin.AccountCardController{}.Delete)
 	adminGroup.POST("account_card/option", admin.AccountCardController{}.Option)
 
+	// 用户优惠卷
+	adminGroup.GET("account_coupon/list", admin.AccountCouponController{}.List)
+	adminGroup.POST("account_coupon/detail", admin.AccountCouponController{}.Detail)
+	adminGroup.POST("account_coupon/delete", admin.AccountCouponController{}.Delete)
+	adminGroup.POST("account_coupon/option", admin.AccountCouponController{}.Option)
+
 	// 次卡
 	adminGroup.GET("card/list", admin.CardController{}.List)
 	adminGroup.GET("card/getAll", admin.CardController{}.GetAll)

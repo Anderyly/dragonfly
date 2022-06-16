@@ -11,6 +11,7 @@ import (
 	"dragonfly/ay"
 	"dragonfly/models"
 	"github.com/gin-gonic/gin"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -25,6 +26,7 @@ func (con AccountCouponController) List(c *gin.Context) {
 		Page     int    `form:"page"`
 		PageSize int    `form:"pageSize"`
 		Key      string `form:"key"`
+		Uid      int64  `form:"uid"`
 	}
 
 	var data listForm
@@ -38,43 +40,36 @@ func (con AccountCouponController) List(c *gin.Context) {
 		return
 	}
 
-	var user []models.User
+	type r struct {
+		models.Coupon
+		TypeName string `json:"type_name"`
+	}
+	var list []r
 
 	var count int64
-	res := ay.Db.Model(models.User{})
-	if data.Key != "" {
-		res.Where("nickname like ?", "%"+data.Key+"%")
-	}
+	res := ay.Db.Table("d_user_coupon").Select("d_user_coupon.*,d_user_coupon.type as type_name")
 
+	res.Where("d_user_coupon.uid = ?", data.Uid)
 	row := res
 
 	row.Count(&count)
 
-	res.Order("created_at desc").
+	res.Order("d_user_coupon.created_at desc").
 		Limit(data.PageSize).
 		Offset((data.Page - 1) * data.PageSize).
-		Find(&user)
+		Find(&list)
 
-	var list []gin.H
+	for k, v := range list {
+		typeN := []string{
+			"教室", "次卡", "会员", "训练营", "充值",
+		}
+		var typeName string
 
-	for _, v := range user {
-		var vipLevel models.VipLevel
-
-		ay.Db.Order("num desc").
-			Select("name").
-			Where("num <= ?", v.VipNum).
-			First(&vipLevel)
-
-		list = append(list, gin.H{
-			"id":           v.Id,
-			"vip_num":      v.VipNum,
-			"amount":       v.Amount,
-			"avatar":       v.Avatar,
-			"nickname":     v.NickName,
-			"level":        vipLevel.Name,
-			"created_at":   v.CreatedAt,
-			"effective_at": v.EffectiveAt,
-		})
+		for _, v1 := range strings.Split(v.Type, ",") {
+			s, _ := strconv.Atoi(v1)
+			typeName += typeN[s-1] + "、"
+		}
+		list[k].TypeName = strings.TrimRight(typeName, "、")
 	}
 
 	ay.Json{}.Msg(c, 200,
@@ -100,7 +95,7 @@ func (con AccountCouponController) Detail(c *gin.Context) {
 		return
 	}
 
-	var user models.User
+	var user models.Coupon
 
 	ay.Db.First(&user, data.Id)
 
@@ -115,10 +110,13 @@ func (con AccountCouponController) Option(c *gin.Context) {
 
 	type optionForm struct {
 		Id          int64   `form:"id"`
-		Avatar      string  `form:"avatar"`
-		Nickname    string  `form:"nickname"`
+		Type        string  `form:"type"`
+		Uid         int64   `form:"uid"`
+		Name        string  `form:"name"`
+		SubName     string  `form:"sub_name"`
+		Des         string  `form:"des"`
 		Amount      float64 `form:"amount"`
-		VipNum      float64 `form:"vip_num"`
+		Status      int     `form:"status"`
 		EffectiveAt string  `form:"effective_at"`
 	}
 
@@ -133,20 +131,35 @@ func (con AccountCouponController) Option(c *gin.Context) {
 		return
 	}
 
-	var user models.User
-	ay.Db.First(&user, data.Id)
-
 	stamp, _ := time.ParseInLocation("2006-01-02 15:04:05", data.EffectiveAt, time.Local)
 
-	user.EffectiveAt = models.MyTime{Time: stamp}
+	var res models.Coupon
+	ay.Db.First(&res, data.Id)
+	if res.Id != 0 {
+		res.EffectiveAt = models.MyTime{Time: stamp}
+		res.Des = data.Des
+		res.Status = data.Status
+		res.Type = data.Type
+		res.Name = data.Name
+		res.SubName = data.SubName
+		res.Amount = data.Amount
 
-	user.Avatar = data.Avatar
-	user.NickName = data.Nickname
-	user.Amount = data.Amount
-	user.VipNum = data.VipNum
+		ay.Db.Save(&res)
+		ay.Json{}.Msg(c, 200, "修改成功", gin.H{})
+	} else {
+		ay.Db.Create(&models.Coupon{
+			Type:        data.Type,
+			Uid:         data.Uid,
+			Name:        data.Name,
+			SubName:     data.SubName,
+			Des:         data.Des,
+			Amount:      data.Amount,
+			EffectiveAt: models.MyTime{Time: stamp},
+			Status:      data.Status,
+		})
+		ay.Json{}.Msg(c, 200, "创建成功", gin.H{})
 
-	ay.Db.Save(&user)
-	ay.Json{}.Msg(c, 200, "修改成功", gin.H{})
+	}
 
 }
 
@@ -169,32 +182,10 @@ func (con AccountCouponController) Delete(c *gin.Context) {
 	idArr := strings.Split(data.Id, ",")
 
 	for _, v := range idArr {
-		var user models.User
+		var user models.Coupon
 		ay.Db.Delete(&user, v)
 	}
 
 	ay.Json{}.Msg(c, 200,
 		"删除成功", gin.H{})
-}
-
-// GetAllAgent 获取所有组长
-func (con AccountCouponController) GetAllAgent(c *gin.Context) {
-	if Auth() == false {
-		ay.Json{}.Msg(c, 401, "请登入", gin.H{})
-		return
-	}
-
-	type returnList struct {
-		Label string `gorm:"column:account" json:"label"`
-		Value int64  `gorm:"column:id" json:"value"`
-	}
-
-	var list []returnList
-	ay.Db.Model(models.User{}).Where("status = 1 AND type = 1").Find(&list)
-
-	ay.Json{}.Msg(c, 200,
-		"success", gin.H{
-			"list": list,
-		})
-
 }

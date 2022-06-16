@@ -27,12 +27,15 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="增加后台操作">
+    <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="用户次卡">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/admin/account_card.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/account_card.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/admin/card.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/card.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/admin/account_coupon.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/account_coupon.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/admin/basic.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/basic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/admin/level.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/level.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/alipay/202202231536182290000001.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/vip_level.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/vip_level.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/admin.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -241,7 +244,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="1.修改大师头像问题&#10;2.增加用户中心返回中文地址&#10;3.修改收藏古籍以及文章图片不显示" />
     <MESSAGE value="更改写法" />
     <MESSAGE value="增加用户采纳" />
     <MESSAGE value="定时任务" />
@@ -266,7 +268,8 @@
     <MESSAGE value="微信支付证书" />
     <MESSAGE value="增加舞蹈室预定以及退订" />
     <MESSAGE value="增加后台操作" />
-    <option name="LAST_COMMIT_MESSAGE" value="增加后台操作" />
+    <MESSAGE value="用户次卡" />
+    <option name="LAST_COMMIT_MESSAGE" value="用户次卡" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

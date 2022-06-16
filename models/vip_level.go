@@ -18,7 +18,7 @@ type VipLevel struct {
 	SpellClass    float64 `json:"spell_class"`
 	Chanel        int     `json:"chanel"`
 	AdvanceChanel int     `json:"advance_chanel"`
-	GiveCard      int     `json:"give_card"`
+	GiveCard      string  `json:"give_card"`
 	GiveCoupon    int     `json:"give_coupon"`
 }
 
