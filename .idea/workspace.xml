@@ -28,14 +28,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="增加后台操作">
-      <change afterPath="$PROJECT_DIR$/controllers/admin/order.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/electric.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/admin/account_card.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/account_card.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/admin/card.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/card.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/alipay/202202231536182290000001.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/admin.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

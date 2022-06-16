@@ -38,45 +38,34 @@ func (con AccountCardController) List(c *gin.Context) {
 		ay.Json{}.Msg(c, 401, "请登入", gin.H{})
 		return
 	}
+	type r struct {
+		Id          int64         `json:"id"`
+		UseHour     float64       `json:"use_hour"`
+		EffectiveAt models.MyTime `json:"effective_at"`
+		Status      int           `json:"status"`
+		CreatedAt   models.MyTime `json:"created_at"`
+		Name        string        `json:"name"`
+		Type        int           `json:"type"`
+		AllHour     float64       `json:"all_hour"`
+	}
 
-	var user []models.User
+	var list []r
 
 	var count int64
-	res := ay.Db.Model(models.User{})
-	if data.Key != "" {
-		res.Where("nickname like ?", "%"+data.Key+"%")
-	}
+	res := ay.Db.Table("d_user_card").
+		Select("d_user_card.id,d_user_card.use_hour,d_user_card.effective_at,d_user_card.created_at,d_user_card.status,d_card.name,d_card.type,d_card.all_hour").
+		Joins("join d_card on d_user_card.card_id=d_card.id")
+
+	res.Where("d_user_card.uid = ?", data.Uid)
 
 	row := res
 
 	row.Count(&count)
 
-	res.Order("created_at desc").
+	res.Order("d_user_card.created_at desc").
 		Limit(data.PageSize).
 		Offset((data.Page - 1) * data.PageSize).
-		Find(&user)
-
-	var list []gin.H
-
-	for _, v := range user {
-		var vipLevel models.VipLevel
-
-		ay.Db.Order("num desc").
-			Select("name").
-			Where("num <= ?", v.VipNum).
-			First(&vipLevel)
-
-		list = append(list, gin.H{
-			"id":           v.Id,
-			"vip_num":      v.VipNum,
-			"amount":       v.Amount,
-			"avatar":       v.Avatar,
-			"nickname":     v.NickName,
-			"level":        vipLevel.Name,
-			"created_at":   v.CreatedAt,
-			"effective_at": v.EffectiveAt,
-		})
-	}
+		Find(&list)
 
 	ay.Json{}.Msg(c, 200,
 		"success", gin.H{
@@ -101,7 +90,7 @@ func (con AccountCardController) Detail(c *gin.Context) {
 		return
 	}
 
-	var user models.User
+	var user models.UserCard
 
 	ay.Db.First(&user, data.Id)
 
@@ -115,12 +104,12 @@ func (con AccountCardController) Detail(c *gin.Context) {
 func (con AccountCardController) Option(c *gin.Context) {
 
 	type optionForm struct {
-		Id          int64   `form:"id"`
-		Avatar      string  `form:"avatar"`
-		Nickname    string  `form:"nickname"`
-		Amount      float64 `form:"amount"`
-		VipNum      float64 `form:"vip_num"`
-		EffectiveAt string  `form:"effective_at"`
+		Id          int64  `form:"id"`
+		UseHour     int    `form:"use_hour"`
+		Uid         int64  `form:"uid"`
+		CardId      int64  `form:"card_id"`
+		Status      int    `form:"status"`
+		EffectiveAt string `form:"effective_at"`
 	}
 
 	var data optionForm
@@ -134,20 +123,33 @@ func (con AccountCardController) Option(c *gin.Context) {
 		return
 	}
 
-	var user models.User
-	ay.Db.First(&user, data.Id)
-
+	var res models.UserCard
+	ay.Db.First(&res, data.Id)
 	stamp, _ := time.ParseInLocation("2006-01-02 15:04:05", data.EffectiveAt, time.Local)
 
-	user.EffectiveAt = models.MyTime{Time: stamp}
+	if res.Id != 0 {
 
-	user.Avatar = data.Avatar
-	user.NickName = data.Nickname
-	user.Amount = data.Amount
-	user.VipNum = data.VipNum
+		res.EffectiveAt = models.MyTime{Time: stamp}
 
-	ay.Db.Save(&user)
-	ay.Json{}.Msg(c, 200, "修改成功", gin.H{})
+		res.Status = data.Status
+		res.UseHour = data.UseHour
+		res.CardId = data.CardId
+		ay.Db.Save(&res)
+		ay.Json{}.Msg(c, 200, "修改成功", gin.H{})
+	} else {
+		var card models.Card
+		ay.Db.First(&card, data.CardId)
+		ay.Db.Create(&models.UserCard{
+			BaseModel:   models.BaseModel{},
+			CardId:      data.CardId,
+			Uid:         data.Uid,
+			UseHour:     data.UseHour,
+			AllHour:     card.AllHour,
+			EffectiveAt: models.MyTime{Time: stamp},
+			Status:      data.Status,
+		})
+		ay.Json{}.Msg(c, 200, "创建成功", gin.H{})
+	}
 
 }
 
@@ -170,32 +172,10 @@ func (con AccountCardController) Delete(c *gin.Context) {
 	idArr := strings.Split(data.Id, ",")
 
 	for _, v := range idArr {
-		var user models.User
+		var user models.UserCard
 		ay.Db.Delete(&user, v)
 	}
 
 	ay.Json{}.Msg(c, 200,
 		"删除成功", gin.H{})
-}
-
-// GetAllAgent 获取所有组长
-func (con AccountCardController) GetAllAgent(c *gin.Context) {
-	if Auth() == false {
-		ay.Json{}.Msg(c, 401, "请登入", gin.H{})
-		return
-	}
-
-	type returnList struct {
-		Label string `gorm:"column:account" json:"label"`
-		Value int64  `gorm:"column:id" json:"value"`
-	}
-
-	var list []returnList
-	ay.Db.Model(models.User{}).Where("status = 1 AND type = 1").Find(&list)
-
-	ay.Json{}.Msg(c, 200,
-		"success", gin.H{
-			"list": list,
-		})
-
 }

@@ -24,8 +24,15 @@ func AdminRouters(r *gin.RouterGroup) {
 	adminGroup.POST("account/detail", admin.AccountController{}.Detail)
 	adminGroup.POST("account/option", admin.AccountController{}.Option)
 
+	// 用户次卡
+	adminGroup.GET("account_card/list", admin.AccountCardController{}.List)
+	adminGroup.POST("account_card/detail", admin.AccountCardController{}.Detail)
+	adminGroup.POST("account_card/delete", admin.AccountCardController{}.Delete)
+	adminGroup.POST("account_card/option", admin.AccountCardController{}.Option)
+
 	// 次卡
 	adminGroup.GET("card/list", admin.CardController{}.List)
+	adminGroup.GET("card/getAll", admin.CardController{}.GetAll)
 	adminGroup.POST("card/detail", admin.CardController{}.Detail)
 	adminGroup.POST("card/option", admin.CardController{}.Option)
 	adminGroup.POST("card/delete", admin.CardController{}.Delete)

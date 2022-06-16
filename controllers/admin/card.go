@@ -166,3 +166,25 @@ func (con CardController) Delete(c *gin.Context) {
 	ay.Json{}.Msg(c, 200,
 		"删除成功", gin.H{})
 }
+
+// GetAll 获取所有次卡
+func (con CardController) GetAll(c *gin.Context) {
+	if Auth() == false {
+		ay.Json{}.Msg(c, 401, "请登入", gin.H{})
+		return
+	}
+
+	type returnList struct {
+		Label string `gorm:"column:name" json:"label"`
+		Value int64  `gorm:"column:id" json:"value"`
+	}
+
+	var list []returnList
+	ay.Db.Model(models.Card{}).Find(&list)
+
+	ay.Json{}.Msg(c, 200,
+		"success", gin.H{
+			"list": list,
+		})
+
+}
