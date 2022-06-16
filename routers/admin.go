@@ -81,6 +81,10 @@ func AdminRouters(r *gin.RouterGroup) {
 	adminGroup.POST("train/delete", admin.TrainController{}.Delete)
 	adminGroup.POST("train/upload", admin.TrainController{}.Upload)
 
+	// 订单号
+	adminGroup.GET("order/list", admin.OrderController{}.List)
+	adminGroup.POST("order/detail", admin.OrderController{}.Detail)
+
 	// 拼课预约
 	adminGroup.GET("train_subscribe/list", admin.TrainSubscribeController{}.List)
 
