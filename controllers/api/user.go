@@ -110,6 +110,7 @@ func (con UserController) Order(c *gin.Context) {
 			"status":     v.Status,
 			"op":         v.Op,
 			"created_at": v.CreatedAt.Unix(),
+			"amount":     v.Amount,
 		})
 	}
 

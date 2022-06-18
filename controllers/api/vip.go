@@ -106,3 +106,18 @@ func (con VipController) Pay(c *gin.Context) {
 	}
 
 }
+
+func (con VipController) Level(c *gin.Context) {
+	//var data levelVipControllerForm
+	//if err := c.ShouldBind(&data); err != nil {
+	//	ay.Json{}.Msg(c, 400, ay.Validator{}.Translate(err), gin.H{})
+	//	return
+	//}
+
+	var list []models.VipLevel
+	ay.Db.Find(&list)
+
+	ay.Json{}.Msg(c, 200, "success", gin.H{
+		"list": list,
+	})
+}
