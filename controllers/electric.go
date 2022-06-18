@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022
  */
 
-package service
+package controllers
 
 import (
 	"crypto/hmac"
@@ -13,6 +13,7 @@ import (
 	"dragonfly/ay"
 	"encoding/base64"
 	"encoding/hex"
+	"encoding/json"
 	uuid "github.com/satori/go.uuid"
 	"io/ioutil"
 	"log"
@@ -30,14 +31,14 @@ var (
 	appSecret = "36d3e0833493fe9839be36a6411133c8"
 )
 
-func (con ElectricServer) GetSign(method string, headers map[string]string, url string) string {
+func (con ElectricServer) getSign(method string, headers map[string]string, url string) string {
 	h := "X-Ca-Key:" + headers["X-Ca-Key"] + "\nX-Ca-Nonce:" + headers["X-Ca-Nonce"] + "\nX-Ca-Timestamp:" + headers["X-Ca-Timestamp"] + "\n"
 	sign := method + "\n" + headers["Accept"] + "\n\n" + headers["Content-Type"] + "\n\n" + h + url
 	hmac := con.genHMAC256([]byte(sign), []byte(appSecret))
 	return base64.StdEncoding.EncodeToString(hmac)
 }
 
-func (con ElectricServer) SHA256(str string) string {
+func (con ElectricServer) sHA256(str string) string {
 	hash := sha256.New()
 	hash.Write([]byte(str))
 	res := hex.EncodeToString(hash.Sum(nil))
@@ -51,7 +52,61 @@ func (con ElectricServer) genHMAC256(ciphertext, key []byte) []byte {
 	return hmac
 }
 
-func (con ElectricServer) Header(paths string, param string) {
+func (con ElectricServer) getToken() (bool, string) {
+	type tokenR struct {
+		Code int `json:"code"`
+		Data struct {
+			IsolationId string `json:"isolationId"`
+			ExpireIn    int    `json:"expireIn"`
+			CloudToken  string `json:"cloudToken"`
+		} `json:"data"`
+		Id string `json:"id"`
+	}
+	// 请求获取token
+	param := `{"id":"xxx","version":"1.0","request":{"apiVer":"1.0.0"},
+"params":{"grantType":"project","res":"a123lMKf6QwW8GGZ"}}`
+	res := con.Http("/cloud/token", param)
+	var tokenResponse tokenR
+	json.Unmarshal([]byte(res), &tokenResponse)
+
+	if tokenResponse.Code == 200 {
+		return true, tokenResponse.Data.CloudToken
+	} else {
+		return false, "获取失败"
+	}
+
+}
+
+func (con ElectricServer) Set(status int, deviceName string) bool {
+	is, token := con.getToken()
+	if !is {
+		return false
+	}
+	param := `{"id":"xxx","version":"1.0","request":{"apiVer":"1.0.2", "cloudToken":"` + token + `"},
+"params":{"items":{
+			"PowerSwitch":` + strconv.Itoa(status) + `,
+		},"productKey":"a17Qcm8TlOQ", "deviceName": "` + deviceName + `"}}`
+	//log.Println(param)
+
+	res := con.Http("/cloud/thing/properties/set", param)
+
+	type r struct {
+		Code int    `json:"code"`
+		Data string `json:"data"`
+		Id   string `json:"id"`
+	}
+
+	var rj r
+	json.Unmarshal([]byte(res), &rj)
+
+	if rj.Code == 200 {
+		return true
+	} else {
+		return false
+	}
+}
+
+func (con ElectricServer) Http(paths string, param string) string {
 	uuid := ay.MD5(uuid.NewV4().String())
 	t := strconv.FormatInt(time.Now().Unix(), 10) + "000"
 	client := &http.Client{}
@@ -62,14 +117,14 @@ func (con ElectricServer) Header(paths string, param string) {
 		log.Println(err)
 	}
 	headers := make(map[string]string)
-	headers["Accept"] = "application/text; charset=UTF-8"
-	headers["Content-Type"] = "application/text; charset=UTF-8"
+	headers["Accept"] = "application/json; charset=UTF-8"
+	headers["Content-Type"] = "application/json; charset=UTF-8"
 	headers["X-Ca-Key"] = appKey
 	headers["X-Ca-Nonce"] = uuid
 	headers["X-Ca-Timestamp"] = t
 	//headers["X-Ca-Stage"] = "RELEASE"
 	headers["X-Ca-Signature-Headers"] = "X-Ca-Key,X-Ca-Nonce,X-Ca-Timestamp"
-	headers["X-Ca-Signature"] = con.GetSign("POST", headers, paths)
+	headers["X-Ca-Signature"] = con.getSign("POST", headers, paths)
 
 	for key, header := range headers {
 		req.Header.Set(key, header)
@@ -83,6 +138,6 @@ func (con ElectricServer) Header(paths string, param string) {
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println(string(body))
+	return string(body)
 	//return string(body), nil
 }

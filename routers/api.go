@@ -20,6 +20,8 @@ func ApiRouters(r *gin.RouterGroup) {
 	apiGroup.GET("main", api.HomeController{}.Main)
 	apiGroup.GET("chart", api.HomeController{}.Chart)
 
+	apiGroup.GET("test", api.HomeController{}.Test)
+
 	apiGroup.GET("banner", api.HomeController{}.Banner)
 
 	// 用户

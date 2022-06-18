@@ -24,6 +24,7 @@ type Room struct {
 	Image     string  `json:"image"`
 	Video     string  `json:"video"`
 	Size      float64 `json:"size"`
+	Electric  string  `json:"electric"`
 }
 
 func (Room) TableName() string {

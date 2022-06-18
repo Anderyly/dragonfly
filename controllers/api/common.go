@@ -253,3 +253,54 @@ func (con CommonController) UserAmountPay(user *models.User, amount float64) (bo
 	}
 
 }
+
+// Give 发放会员卡以及优惠卷
+func (con CommonController) Give(user models.User) {
+
+	// 获取当前时间
+	ymd := time.Now().Unix()
+
+	// 查询最后发放时间
+	var lastGive models.UserVipGive
+	ay.Db.Where("uid = ?", user.Id).Order("created_at desc").First(&lastGive)
+	if lastGive.CreatedAt.Unix()+30*24*3600 < ymd {
+
+		// 获取系统配置
+		config := models.ConfigModel{}.Get()
+
+		// 获取会员卡
+		var card models.Card
+		ay.Db.First(&card, config.GiveCard)
+		if card.Id == 0 {
+			return
+		}
+
+		// 发放次卡
+		models.UserCardModel{}.Add(card.Id, card.AllHour, user.Id, card.Effective, 0)
+
+		// 获取会员等级
+		_, vipLevel := con.GetVip(user)
+
+		// 发放优惠卷
+		for i := 0; i < vipLevel.GiveCoupon; i++ {
+			effective := time.Now().Unix() + int64(config.CouponEffective*3600*24)
+			stamp, _ := time.ParseInLocation("2006-01-02 15:04:05", time.Unix(effective, 0).Format("2006-01-02 15:04:05"), time.Local)
+			ay.Db.Create(&models.Coupon{
+				Type:        config.CouponType,
+				Uid:         user.Id,
+				Name:        config.CouponName,
+				SubName:     config.CouponSubName,
+				Des:         config.CouponDes,
+				Amount:      config.CouponAmount,
+				EffectiveAt: models.MyTime{Time: stamp},
+				Status:      0,
+			})
+		}
+
+		y, _ := strconv.Atoi(time.Now().Format("20060102"))
+		ay.Db.Create(&models.UserVipGive{
+			Uid: user.Id,
+			Ymd: y,
+		})
+	}
+}

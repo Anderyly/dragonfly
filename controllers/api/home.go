@@ -9,13 +9,20 @@ package api
 
 import (
 	"dragonfly/ay"
+	"dragonfly/controllers"
 	"dragonfly/models"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"strconv"
 	"time"
 )
 
 type HomeController struct {
+}
+
+func (con HomeController) Test(c *gin.Context) {
+	status, _ := strconv.Atoi(c.Query("status"))
+	controllers.ElectricServer{}.Set(status, "861714057053674")
 }
 
 func (con HomeController) Main(c *gin.Context) {

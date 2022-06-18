@@ -27,16 +27,20 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="用户次卡">
+    <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="次卡">
+      <change afterPath="$PROJECT_DIR$/models/user_vip_give.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/admin/account_coupon.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/account_coupon.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/admin/basic.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/basic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/admin/level.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/level.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/admin/room.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/room.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/common.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/common.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/coupon.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/coupon.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/home.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/home.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/notify.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/notify.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/vip.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/vip.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/alipay/202202231536182290000001.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/vip_level.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/vip_level.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routers/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/admin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/room.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/room.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers/api.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/electric.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/electric.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,20 +109,21 @@
     "configurable..is.expanded": "false",
     "configurable.GoLibrariesConfigurable.is.expanded": "true",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "E:/go/src/dragonfly/controllers/admin",
+    "last_opened_file_path": "E:/go/src/dragonfly/models",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\go\src\dragonfly\controllers\admin" />
       <recent name="E:\go\src\dragonfly\models" />
+      <recent name="E:\go\src\dragonfly\controllers\admin" />
       <recent name="E:\go\src\dragonfly\controllers\api" />
       <recent name="F:\data\go\src\dragonfly\models" />
       <recent name="F:\data\go\src\dragonfly\controllers\api" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\go\src\dragonfly\controllers" />
       <recent name="F:\data\go\src\gin\models" />
       <recent name="F:\data\go\src\gin" />
     </key>
@@ -244,7 +249,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="更改写法" />
     <MESSAGE value="增加用户采纳" />
     <MESSAGE value="定时任务" />
     <MESSAGE value="百科返回图片设置" />
@@ -269,7 +273,8 @@
     <MESSAGE value="增加舞蹈室预定以及退订" />
     <MESSAGE value="增加后台操作" />
     <MESSAGE value="用户次卡" />
-    <option name="LAST_COMMIT_MESSAGE" value="用户次卡" />
+    <MESSAGE value="次卡" />
+    <option name="LAST_COMMIT_MESSAGE" value="次卡" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

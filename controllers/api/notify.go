@@ -88,12 +88,15 @@ func (con NotifyController) Wechat(c *gin.Context) {
 			res = 1
 		}
 	case 3:
-		// 会员充值
+		// 会员
 		var user models.User
 		ay.Db.First(&user, order.Uid)
 		var vip models.Vip
 		ay.Db.First(&vip, order.Cid)
 		row = models.UserModel{}.SetVip(user, vip.Effective, vip.Amount)
+		var user1 models.User
+		ay.Db.First(&user1, order.Uid)
+		CommonController{}.Give(user1)
 	case 2:
 		var card models.Card
 		ay.Db.First(&card, order.Cid)

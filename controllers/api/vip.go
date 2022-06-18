@@ -93,10 +93,14 @@ func (con VipController) Pay(c *gin.Context) {
 				return
 			}
 			tx.Commit()
+
+			var user1 models.User
+			ay.Db.First(&user1, requestUser.Id)
+			CommonController{}.Give(user1)
+
 			ay.Json{}.Msg(c, 200, "用户支付成功", gin.H{})
 		} else {
 			ay.Json{}.Msg(c, 400, msg, gin.H{})
-
 		}
 
 	}

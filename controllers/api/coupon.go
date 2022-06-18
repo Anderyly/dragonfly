@@ -38,7 +38,7 @@ func (con CouponController) User(c *gin.Context) {
 	}
 
 	var coupon []models.Coupon
-	ay.Db.Select("id,name,sub_name,effective_at,des,status").
+	ay.Db.Select("id,name,sub_name,effective_at,des,status,amount").
 		Where("uid = ?", requestUser.Id).
 		Offset(page * Limit).
 		Limit(Limit).
@@ -59,6 +59,7 @@ func (con CouponController) User(c *gin.Context) {
 			"des":          v.Des,
 			"effective_at": v.EffectiveAt,
 			"status":       status,
+			"amount":       v.Amount,
 		})
 	}
 
@@ -95,7 +96,7 @@ func (con CouponController) Select(c *gin.Context) {
 	}
 
 	var coupon []models.Coupon
-	ay.Db.Select("id,name,sub_name,effective_at,des,status").
+	ay.Db.Select("id,name,sub_name,effective_at,des,status,amount").
 		Where("uid = ? AND FIND_IN_SET(?,type)", requestUser.Id, data.Type).
 		Offset(page * Limit).
 		Limit(Limit).
@@ -117,6 +118,7 @@ func (con CouponController) Select(c *gin.Context) {
 			"des":          v.Des,
 			"effective_at": v.EffectiveAt,
 			"status":       status,
+			"amount":       v.Amount,
 		})
 	}
 

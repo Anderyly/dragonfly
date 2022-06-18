@@ -110,6 +110,7 @@ func (con RoomController) Option(c *gin.Context) {
 		Image     string  `form:"image"`
 		Video     string  `form:"video"`
 		Size      float64 `form:"size"`
+		Electric  string  `form:"electric"`
 	}
 	var data optionForm
 	if err := c.ShouldBind(&data); err != nil {
@@ -140,6 +141,7 @@ func (con RoomController) Option(c *gin.Context) {
 		res.Guide = data.Guide
 		res.Cancel = data.Cancel
 		res.Type = data.Type
+		res.Electric = data.Electric
 
 		if err := ay.Db.Save(&res).Error; err != nil {
 			ay.Json{}.Msg(c, 400, "修改失败", gin.H{})
@@ -160,6 +162,7 @@ func (con RoomController) Option(c *gin.Context) {
 			Image:     image,
 			Video:     data.Video,
 			Size:      data.Size,
+			Electric:  data.Electric,
 		})
 		ay.Json{}.Msg(c, 200, "创建成功", gin.H{})
 
