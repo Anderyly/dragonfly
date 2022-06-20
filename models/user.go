@@ -17,12 +17,13 @@ type UserModel struct {
 
 type User struct {
 	BaseModel
-	Openid      string  `json:"openid"`
-	Avatar      string  `gorm:"column:avatar" json:"avatar"`
-	NickName    string  `gorm:"column:nickname" json:"nickname"`
-	Amount      float64 `gorm:"column:amount" json:"amount"`
-	EffectiveAt MyTime  `gorm:"column:effective_at" json:"effective_at"`
-	VipNum      float64 `gorm:"column:vip_num" json:"vip_num"`
+	Openid        string  `json:"openid"`
+	Avatar        string  `gorm:"column:avatar" json:"avatar"`
+	NickName      string  `gorm:"column:nickname" json:"nickname"`
+	Amount        float64 `gorm:"column:amount" json:"amount"`
+	EffectiveAt   MyTime  `gorm:"column:effective_at" json:"effective_at"`
+	VipNum        float64 `gorm:"column:vip_num" json:"vip_num"`
+	ControlUserId string  `json:"control_user_id"`
 }
 
 func (User) TableName() string {

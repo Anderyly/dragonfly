@@ -9,8 +9,10 @@ package admin
 
 import (
 	"dragonfly/ay"
+	"dragonfly/controllers"
 	"dragonfly/models"
 	"github.com/gin-gonic/gin"
+	"strconv"
 	"strings"
 )
 
@@ -130,18 +132,21 @@ func (con StoreController) Option(c *gin.Context) {
 		if err := ay.Db.Save(&res).Error; err != nil {
 			ay.Json{}.Msg(c, 400, "修改失败", gin.H{})
 		} else {
+			controllers.ControlServer{}.EditArea(data.Name, res.ControlAreaId)
 			ay.Json{}.Msg(c, 200, "修改成功", gin.H{})
 		}
 	} else {
+		_, ControlAreaId := controllers.ControlServer{}.AddArea(data.Name, "0")
 		ay.Db.Create(&models.BranchStore{
-			Name:      data.Name,
-			Address:   data.Address,
-			Mobile:    data.Mobile,
-			Introduce: data.Introduce,
-			Attention: data.Attention,
-			Image:     strings.ReplaceAll(data.Image, ay.Yaml.GetString("domain"), ""),
-			Video:     data.Video,
-			Label:     data.Label,
+			Name:          data.Name,
+			Address:       data.Address,
+			Mobile:        data.Mobile,
+			Introduce:     data.Introduce,
+			Attention:     data.Attention,
+			Image:         strings.ReplaceAll(data.Image, ay.Yaml.GetString("domain"), ""),
+			Video:         data.Video,
+			Label:         data.Label,
+			ControlAreaId: strconv.Itoa(ControlAreaId),
 		})
 		ay.Json{}.Msg(c, 200, "创建成功", gin.H{})
 
@@ -168,6 +173,8 @@ func (con StoreController) Delete(c *gin.Context) {
 
 	for _, v := range idArr {
 		var res models.BranchStore
+		ay.Db.First(&res, v)
+		controllers.ControlServer{}.DelArea(res.ControlAreaId)
 		ay.Db.Delete(&res, v)
 	}
 

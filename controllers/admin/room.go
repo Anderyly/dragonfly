@@ -9,8 +9,10 @@ package admin
 
 import (
 	"dragonfly/ay"
+	"dragonfly/controllers"
 	"dragonfly/models"
 	"github.com/gin-gonic/gin"
+	"strconv"
 	"strings"
 )
 
@@ -111,6 +113,7 @@ func (con RoomController) Option(c *gin.Context) {
 		Video     string  `form:"video"`
 		Size      float64 `form:"size"`
 		Electric  string  `form:"electric"`
+		ControlSn string  `form:"control_sn"`
 	}
 	var data optionForm
 	if err := c.ShouldBind(&data); err != nil {
@@ -127,6 +130,12 @@ func (con RoomController) Option(c *gin.Context) {
 	ay.Db.First(&res, data.Id)
 
 	image := strings.ReplaceAll(data.Image, ay.Yaml.GetString("domain"), "")
+
+	id := controllers.ControlServer{}.GetId(data.ControlSn)
+	if id == 0 {
+		ay.Json{}.Msg(c, 400, "设备sn错误", gin.H{})
+		return
+	}
 	if data.Id != 0 {
 
 		res.StoreId = data.StoreId
@@ -142,13 +151,18 @@ func (con RoomController) Option(c *gin.Context) {
 		res.Cancel = data.Cancel
 		res.Type = data.Type
 		res.Electric = data.Electric
+		res.ControlSn = data.ControlSn
+		res.ControlId = strconv.Itoa(id)
 
 		if err := ay.Db.Save(&res).Error; err != nil {
 			ay.Json{}.Msg(c, 400, "修改失败", gin.H{})
 		} else {
+			controllers.ControlServer{}.EditDept(data.Name, res.DeptId)
 			ay.Json{}.Msg(c, 200, "修改成功", gin.H{})
 		}
 	} else {
+
+		_, ids := controllers.ControlServer{}.AddDept(data.Name, "0")
 		ay.Db.Create(&models.Room{
 			StoreId:   data.StoreId,
 			Type:      data.Type,
@@ -163,6 +177,9 @@ func (con RoomController) Option(c *gin.Context) {
 			Video:     data.Video,
 			Size:      data.Size,
 			Electric:  data.Electric,
+			ControlSn: data.ControlSn,
+			ControlId: strconv.Itoa(id),
+			DeptId:    strconv.Itoa(ids),
 		})
 		ay.Json{}.Msg(c, 200, "创建成功", gin.H{})
 
@@ -189,6 +206,8 @@ func (con RoomController) Delete(c *gin.Context) {
 
 	for _, v := range idArr {
 		var res models.Room
+		ay.Db.First(&res, v)
+		controllers.ControlServer{}.DelDept(res.DeptId)
 		ay.Db.Delete(&res, v)
 	}
 

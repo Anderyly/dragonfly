@@ -9,6 +9,7 @@ package api
 
 import (
 	"dragonfly/ay"
+	"dragonfly/controllers"
 	"dragonfly/models"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
@@ -43,16 +44,36 @@ func (con LoginController) Login(c *gin.Context) {
 	} else {
 
 		user := models.UserModel{}.GetOpenid(openid)
-		user.Avatar = data.Avatar
-		user.Openid = openid
-		user.NickName = data.Nickname
-		ay.Db.Save(&user)
+		if user.Id == 0 {
 
-		ay.Json{}.Msg(c, 200, "success", gin.H{
-			"token":    ay.AuthCode(strconv.Itoa(int(user.Id)), "ENCODE", "", 0),
-			"avatar":   user.Avatar,
-			"nickname": user.NickName,
-		})
+			ay.Db.Create(&models.User{
+				Openid:      openid,
+				Avatar:      data.Avatar,
+				NickName:    data.Nickname,
+				Amount:      0,
+				EffectiveAt: models.MyTime{},
+				VipNum:      0,
+			})
+			r := models.UserModel{}.GetOpenid(openid)
+			_, res := controllers.ControlServer{}.AddUser(data.Nickname, strconv.FormatInt(r.Id, 10), "2022-06-01 11:11:11", "2022-06-01 17:11:11", "81204", "0")
+			r.ControlUserId = strconv.Itoa(res)
+			ay.Db.Save(&r)
+			ay.Json{}.Msg(c, 200, "success", gin.H{
+				"token":    ay.AuthCode(strconv.Itoa(int(r.Id)), "ENCODE", "", 0),
+				"avatar":   r.Avatar,
+				"nickname": r.NickName,
+			})
+		} else {
+			user.Avatar = data.Avatar
+			user.Openid = openid
+			user.NickName = data.Nickname
+			ay.Db.Save(&user)
+			ay.Json{}.Msg(c, 200, "success", gin.H{
+				"token":    ay.AuthCode(strconv.Itoa(int(user.Id)), "ENCODE", "", 0),
+				"avatar":   user.Avatar,
+				"nickname": user.NickName,
+			})
+		}
 	}
 }
 
