@@ -67,7 +67,6 @@ func (con ControlServer) BindUser(id, add, del string) bool {
 		paths += "&addDoorIdList=" + add
 	}
 	res := con.Http(paths, "")
-	log.Println(res)
 	var rj returnRes
 	json.Unmarshal([]byte(res), &rj)
 	if rj.Success {
@@ -124,8 +123,6 @@ func (con ControlServer) AddUser(name, mobile, start, end, dept, status string) 
 }`
 	paths := "/open/persion/insert?appid=" + appid + "&timestamp=" + t + "&sign=" + sign
 	res := con.Http(paths, param)
-	log.Println(param)
-	log.Println(res)
 
 	type rr struct {
 		Ret    int         `json:"ret"`
@@ -164,6 +161,30 @@ func (con ControlServer) AddUser(name, mobile, start, end, dept, status string) 
 		return true, rj.Data.Id
 	} else {
 		return false, 0
+	}
+}
+
+// EditUser 编辑用户
+func (con ControlServer) EditUser(id, start, end string) bool {
+	_, card := con.GetCard()
+	sign, t := con.getSign()
+	param := `{
+"id":` + id + `,
+"canAttence": true,
+"card": "` + card + `",
+"canPass": true,
+"effectStartTime": "` + start + `",
+"effectEndTime": "` + end + `"
+}`
+	paths := "/open/persion/editById?appid=" + appid + "&timestamp=" + t + "&sign=" + sign
+	res := con.Http(paths, param)
+
+	var rj returnRes
+	json.Unmarshal([]byte(res), &rj)
+	if rj.Success {
+		return true
+	} else {
+		return false
 	}
 }
 
@@ -233,7 +254,6 @@ func (con ControlServer) GetDeptId(name string) int {
 		} `json:"data"`
 		Ss bool `json:"ss"`
 	}
-	log.Println(res)
 	var rj r
 	json.Unmarshal([]byte(res), &rj)
 	for _, v := range rj.Data {
@@ -264,7 +284,6 @@ func (con ControlServer) BindDevice(id string, areaId string) bool {
 	sign, t := con.getSign()
 	paths := "/open/area/bindAreaDevice?appid=" + appid + "&timestamp=" + t + "&sign=" + sign + "&areaId=" + areaId + "&deviceIdList=" + id
 	res := con.Http(paths, "")
-	log.Println(res)
 	var rj returnRes
 	json.Unmarshal([]byte(res), &rj)
 	if rj.Success {
@@ -357,7 +376,6 @@ func (con ControlServer) GetAreaId(name string) int {
 		Success bool `json:"success"`
 	}
 
-	log.Println(res)
 	var rj r
 	json.Unmarshal([]byte(res), &rj)
 	for _, v := range rj.Data {
@@ -388,8 +406,6 @@ func (con ControlServer) GetId(sn string) int {
 	sign, t := con.getSign()
 	paths := "/open/device/getBySn?appid=" + appid + "&timestamp=" + t + "&sign=" + sign + "&sn=" + sn
 	res := con.Http(paths, "")
-	log.Println(res)
-	//return res
 	type r struct {
 		Ret    int    `json:"ret"`
 		ErrMsg string `json:"errMsg"`
@@ -454,7 +470,6 @@ func (con ControlServer) GetId(sn string) int {
 func (con ControlServer) Http(paths string, param string) string {
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", "http://www.wacloud.net:9130"+paths, strings.NewReader(string(param)))
-	log.Println("http://www.wacloud.net:9130" + paths)
 
 	req.Header.Set("Content-Type", "application/json; charset=UTF-8")
 
