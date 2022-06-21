@@ -77,7 +77,6 @@ func (con BasicController) Option(c *gin.Context) {
 	ay.Db.First(&res, 1)
 
 	res.RechargeDesc = data.RechargeDesc
-	res.RoomAmount = data.RoomAmount
 	res.KfMobile = data.KfMobile
 	res.KfLink = data.KfLink
 	res.UnsubscribeDesc = data.UnsubscribeDesc

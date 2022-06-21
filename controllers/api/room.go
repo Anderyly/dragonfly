@@ -144,10 +144,10 @@ func (con RoomController) Subscribe(c *gin.Context) {
 	var userSub []models.UserRoomSubscribe
 	ay.Db.Where("uid = ? and ymd = ?", requestUser.Id, data.Ymd).Find(&userSub)
 
-	config := models.ConfigModel{}.Get()
+	//config := models.ConfigModel{}.Get()
 	var list []gin.H
 	for _, v := range userSub {
-		amount := config.RoomAmount
+		amount := res.Amount
 		var roomSub models.RoomSubscribe
 		ay.Db.Where("room_id = ? and ymd = ? and hour_id = ?", data.Id, data.Ymd, v.HourId).Find(&roomSub)
 		if roomSub.Id != 0 {
@@ -176,7 +176,10 @@ func (con RoomController) Subscribe(c *gin.Context) {
 
 func (con RoomController) getHour(roomId int64, ymd int) []gin.H {
 	var res []gin.H
-	config := models.ConfigModel{}.Get()
+
+	var room models.Room
+	ay.Db.First(&room, roomId)
+	//config := models.ConfigModel{}.Get()
 	// 后台定义价格
 	var roomSub []models.RoomSubscribe
 	ay.Db.Where("room_id = ? and ymd = ?", roomId, ymd).Find(&roomSub)
@@ -185,7 +188,7 @@ func (con RoomController) getHour(roomId int64, ymd int) []gin.H {
 	ay.Db.Where("room_id = ? and ymd = ?", roomId, ymd).Find(&userSub)
 
 	for i := 1; i <= 24; i++ {
-		amount := config.RoomAmount
+		amount := room.Amount
 		isSubscribe := 0
 		for _, v := range roomSub {
 			if v.HourId == i {
@@ -307,7 +310,6 @@ func (con RoomController) Pay(c *gin.Context) {
 	isVip, vipLevel := CommonController{}.GetVip(requestUser)
 
 	if len(hourIdArr) >= 1 {
-		config := models.ConfigModel{}.Get()
 		// 获取预定价格
 		var roomSub []models.RoomSubscribe
 		ay.Db.Where("room_id = ? and ymd = ?", data.RoomId, data.Ymd).Find(&roomSub)
@@ -316,7 +318,7 @@ func (con RoomController) Pay(c *gin.Context) {
 				if strconv.Itoa(v.HourId) == v1 {
 					amount += v.Amount
 				} else {
-					amount += config.RoomAmount
+					amount += res.Amount
 				}
 			}
 		}

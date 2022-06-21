@@ -114,6 +114,7 @@ func (con RoomController) Option(c *gin.Context) {
 		Size      float64 `form:"size"`
 		Electric  string  `form:"electric"`
 		ControlSn string  `form:"control_sn"`
+		Amount    float64 `form:"amount"`
 	}
 	var data optionForm
 	if err := c.ShouldBind(&data); err != nil {
@@ -153,6 +154,7 @@ func (con RoomController) Option(c *gin.Context) {
 		res.Electric = data.Electric
 		res.ControlSn = data.ControlSn
 		res.ControlId = strconv.Itoa(id)
+		res.Amount = data.Amount
 
 		if err := ay.Db.Save(&res).Error; err != nil {
 			ay.Json{}.Msg(c, 400, "修改失败", gin.H{})
@@ -180,6 +182,7 @@ func (con RoomController) Option(c *gin.Context) {
 			ControlSn: data.ControlSn,
 			ControlId: strconv.Itoa(id),
 			DeptId:    strconv.Itoa(ids),
+			Amount:    data.Amount,
 		})
 		ay.Json{}.Msg(c, 200, "创建成功", gin.H{})
 

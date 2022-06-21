@@ -265,21 +265,19 @@ func (con CommonController) Give(user models.User) {
 	ay.Db.Where("uid = ?", user.Id).Order("created_at desc").First(&lastGive)
 	if lastGive.CreatedAt.Unix()+30*24*3600 < ymd {
 
+		_, vipLevel := con.GetVip(user)
 		// 获取系统配置
 		config := models.ConfigModel{}.Get()
 
 		// 获取会员卡
 		var card models.Card
-		ay.Db.First(&card, config.GiveCard)
+		ay.Db.First(&card, vipLevel.GiveCardId)
 		if card.Id == 0 {
 			return
 		}
 
 		// 发放次卡
 		models.UserCardModel{}.Add(card.Id, card.AllHour, user.Id, card.Effective, 0)
-
-		// 获取会员等级
-		_, vipLevel := con.GetVip(user)
 
 		// 发放优惠卷
 		for i := 0; i < vipLevel.GiveCoupon; i++ {

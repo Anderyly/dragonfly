@@ -28,6 +28,7 @@ type Room struct {
 	ControlSn string  `json:"control_sn"`
 	ControlId string  `json:"control_id"`
 	DeptId    string  `json:"dept_id"`
+	Amount    float64 `json:"amount"`
 }
 
 func (Room) TableName() string {

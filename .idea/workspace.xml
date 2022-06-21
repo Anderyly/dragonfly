@@ -27,19 +27,26 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="增加门禁">
+    <list default="true" id="f8a1cb46-997b-4d12-9188-d40778852114" name="变更" comment="完善门禁sdk">
+      <change afterPath="$PROJECT_DIR$/task/card.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/task/control.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/task/coupon.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/task/vip.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conf/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/conf/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/admin/basic.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/basic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/admin/level.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/level.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/admin/room.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/room.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/admin/store.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/store.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/common.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/common.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/api/home.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/home.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/api/login.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/login.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/control.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/control.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/api/room.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/api/room.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/alipay/202202231536182290000001.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/branch_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/branch_store.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/room.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/room.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/vip_level.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/vip_level.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/task/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/task/task.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,30 +96,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;WebServerToolWindowPanel.toolwindow.highlight.mappings&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowPanel.toolwindow.highlight.symlinks&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowPanel.toolwindow.show.date&quot;: &quot;false&quot;,
-    &quot;WebServerToolWindowPanel.toolwindow.show.permissions&quot;: &quot;false&quot;,
-    &quot;WebServerToolWindowPanel.toolwindow.show.size&quot;: &quot;false&quot;,
-    &quot;configurable..is.expanded&quot;: &quot;false&quot;,
-    &quot;configurable.GoLibrariesConfigurable.is.expanded&quot;: &quot;true&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/go/src/dragonfly/models&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "WebServerToolWindowPanel.toolwindow.highlight.mappings": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.symlinks": "true",
+    "WebServerToolWindowPanel.toolwindow.show.date": "false",
+    "WebServerToolWindowPanel.toolwindow.show.permissions": "false",
+    "WebServerToolWindowPanel.toolwindow.show.size": "false",
+    "configurable..is.expanded": "false",
+    "configurable.GoLibrariesConfigurable.is.expanded": "true",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "E:/go/src/aggregate-fortune-telling",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\go\src\dragonfly\models" />
@@ -248,8 +255,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="百科返回图片设置" />
-    <MESSAGE value="增加后台优惠卷管理" />
     <MESSAGE value="1.修改邀请划转钱包&#10;2.修改奖励记录" />
     <MESSAGE value="增加提现金额限制" />
     <MESSAGE value="增加文章 大师 古籍 卜卦历史记录" />
@@ -273,7 +278,9 @@
     <MESSAGE value="次卡" />
     <MESSAGE value="增加断电器" />
     <MESSAGE value="增加门禁" />
-    <option name="LAST_COMMIT_MESSAGE" value="增加门禁" />
+    <MESSAGE value="门禁操作" />
+    <MESSAGE value="完善门禁sdk" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善门禁sdk" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

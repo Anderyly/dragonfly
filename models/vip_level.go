@@ -19,6 +19,7 @@ type VipLevel struct {
 	Chanel        int     `json:"chanel"`
 	AdvanceChanel int     `json:"advance_chanel"`
 	GiveCard      string  `json:"give_card"`
+	GiveCardId    int64   `json:"give_card_id"`
 	GiveCoupon    int     `json:"give_coupon"`
 }
 

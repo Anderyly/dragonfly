@@ -16,7 +16,6 @@ var (
 )
 
 func main() {
-
 	//service.ElectricServer{}.Header("/cloud/thing/properties/get", "")
 	//return
 	ay.Yaml = ay.InitConfig()
@@ -25,7 +24,7 @@ func main() {
 
 	// 开启定时任务
 	c := cron.New()
-	_, err := c.AddFunc("@every 10m", task.Start)
+	_, err := c.AddFunc("@every 5m", task.Start)
 	if err != nil {
 		log.Println(err.Error())
 		return

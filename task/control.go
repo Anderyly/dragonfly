@@ -6,9 +6,3 @@
  */
 
 package task
-
-func Start() {
-	Coupon()
-	Card()
-	Vip()
-}

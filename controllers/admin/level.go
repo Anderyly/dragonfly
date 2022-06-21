@@ -99,6 +99,7 @@ func (con LevelController) Option(c *gin.Context) {
 		Chanel        int     `form:"chanel"`
 		AdvanceChanel int     `form:"advance_chanel"`
 		GiveCard      string  `form:"give_card"`
+		GiveCardId    int64   `form:"give_card_id"`
 		GiveCoupon    int     `form:"give_coupon"`
 	}
 
@@ -124,6 +125,7 @@ func (con LevelController) Option(c *gin.Context) {
 		res.Chanel = data.Chanel
 		res.GiveCoupon = data.GiveCoupon
 		res.GiveCard = data.GiveCard
+		res.GiveCardId = data.GiveCardId
 
 		ay.Db.Save(&res)
 		ay.Json{}.Msg(c, 200, "修改成功", gin.H{})
@@ -137,6 +139,7 @@ func (con LevelController) Option(c *gin.Context) {
 			AdvanceChanel: data.AdvanceChanel,
 			GiveCard:      data.GiveCard,
 			GiveCoupon:    data.GiveCoupon,
+			GiveCardId:    data.GiveCardId,
 		})
 		ay.Json{}.Msg(c, 200, "创建成功", gin.H{})
 	}

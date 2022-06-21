@@ -13,8 +13,8 @@ type ConfigModel struct {
 }
 
 type Config struct {
-	Id                 int64   `json:"id"`
-	RoomAmount         float64 `json:"room_amount"`
+	Id int64 `json:"id"`
+	//RoomAmount         float64 `json:"room_amount"`
 	UnsubscribeDesc    string  `json:"unsubscribe_desc"`
 	VipPayDesc         string  `json:"vip_pay_desc"`
 	RechargeDesc       string  `json:"recharge_desc"`

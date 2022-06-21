@@ -25,13 +25,13 @@ func (con HomeController) Test(c *gin.Context) {
 	//is, msg := controllers.ControlServer{}.AddArea("测试区域", "0")
 	//log.Println(is, msg)
 
-	//_, res := controllers.ControlServer{}.AddUser("测试用户", "1", "2022-06-20 11:11:11", "2022-06-20 17:11:11", "81204", "0")
+	//res := controllers.ControlServer{}.EditUser("169890", "2022-06-20 11:11:11", "2022-06-20 17:11:11")
 	//169888
 
-	controllers.ControlServer{}.BindUser("169888", "6204", "")
+	//controllers.ControlServer{}.BindUser("169890", "6204", "")
 
-	_, res := controllers.ControlServer{}.GetQr("169888")
-	log.Println(res)
+	//_, res := controllers.ControlServer{}.GetQr("169890")
+	//log.Println(res)
 	//id := controllers.ControlServer{}.GetDeptId("和信店")
 	//log.Println(id)
 
@@ -41,10 +41,10 @@ func (con HomeController) Test(c *gin.Context) {
 
 	//controllers.ControlServer{}.BindDevice("6204", "998")
 
-	//status := c.Query("status")
+	status := c.Query("status")
 	////controllers.ElectricServer{}.Set(status, "861714057053674")
-	//ress := controllers.ControlServer{}.Set("1764261414223", status)
-	//log.Println(ress)
+	ress := controllers.ControlServer{}.Set("1764261414223", status)
+	log.Println(ress)
 }
 
 func (con HomeController) Main(c *gin.Context) {
