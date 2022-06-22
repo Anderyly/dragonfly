@@ -29,6 +29,7 @@ func ApiRouters(r *gin.RouterGroup) {
 	// 用户
 	apiGroup.POST("user/info", api.UserController{}.Info)
 	apiGroup.GET("user/order", api.UserController{}.Order)
+	apiGroup.GET("user/qr", api.UserController{}.GetQr)
 
 	// 分店
 	apiGroup.GET("branch/list", api.StoreController{}.List)
@@ -38,6 +39,7 @@ func ApiRouters(r *gin.RouterGroup) {
 	apiGroup.GET("room/list", api.RoomController{}.List)
 	apiGroup.POST("room/detail", api.RoomController{}.Detail)
 	apiGroup.GET("room/subscribe", api.RoomController{}.Subscribe)
+	apiGroup.GET("room/subscribe_order", api.RoomController{}.SubscribeOrder)
 	apiGroup.POST("room/pay", api.RoomController{}.Pay) // 测试
 	apiGroup.POST("room/channel", api.RoomController{}.Channel)
 

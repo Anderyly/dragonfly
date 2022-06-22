@@ -43,7 +43,7 @@ func (con HomeController) Test(c *gin.Context) {
 
 	status := c.Query("status")
 	////controllers.ElectricServer{}.Set(status, "861714057053674")
-	ress := controllers.ControlServer{}.Set("1764261414223", status)
+	ress := controllers.ControlServer{}.Set("6204", status)
 	log.Println(ress)
 }
 

@@ -387,11 +387,11 @@ func (con ControlServer) GetAreaId(name string) int {
 }
 
 // Set 设置设备
-func (con ControlServer) Set(sn, timestamp string) string {
-	id := con.GetId(sn)
+func (con ControlServer) Set(id, timestamp string) string {
+	//id := con.GetId(sn)
 	//id := 6204
 	sign, t := con.getSign()
-	paths := "/open/door/openSingleDoor?appid=" + appid + "&timestamp=" + t + "&sign=" + sign + "&doorId=" + strconv.Itoa(id) + "&time=" + timestamp
+	paths := "/open/door/openSingleDoor?appid=" + appid + "&timestamp=" + t + "&sign=" + sign + "&doorId=" + id + "&time=" + timestamp
 	return con.Http(paths, "")
 }
 

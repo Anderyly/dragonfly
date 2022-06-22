@@ -11,4 +11,9 @@ func Start() {
 	Coupon()
 	Card()
 	Vip()
+	Control()
+	ControlDel()
+	ControlOpenElectric()
+	ControlCloseElectric()
+	ControlCloseDoor()
 }

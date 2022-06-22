@@ -22,6 +22,7 @@ type UserRoomSubscribe struct {
 	Uid    int64 `json:"uid"`
 	Ymd    int   `json:"ymd"`
 	HourId int   `json:"hour_id"`
+	Status int   `json:"status"`
 }
 
 func (UserRoomSubscribe) TableName() string {

@@ -571,3 +571,111 @@ func (con RoomController) Channel(c *gin.Context) {
 	}
 
 }
+
+type subscribeOrderRoomControllerForm struct {
+	Oid string `form:"oid" binding:"required" label:"订单号"`
+}
+
+func (con RoomController) SubscribeOrder(c *gin.Context) {
+	var data subscribeOrderRoomControllerForm
+	if err := c.ShouldBind(&data); err != nil {
+		ay.Json{}.Msg(c, 400, ay.Validator{}.Translate(err), gin.H{})
+		return
+	}
+
+	var order models.Order
+	ay.Db.First(&order, data.Oid)
+	if order.Id == 0 {
+		ay.Json{}.Msg(c, 400, "订单不存在", gin.H{})
+		return
+	}
+
+	var res models.Room
+	ay.Db.Where("id = ?", order.Cid).First(&res)
+
+	if res.Id == 0 {
+		ay.Json{}.Msg(c, 400, "舞蹈室不存在", gin.H{})
+		return
+	}
+
+	isLogin, code, msg, requestUser := Auth(GetToken(Token))
+
+	if !isLogin {
+		ay.Json{}.Msg(c, code, msg, gin.H{})
+		return
+	}
+
+	type cv struct {
+		Num  int      `json:"num"`
+		Time []string `json:"time"`
+		Ymd  int      `json:"ymd"`
+	}
+	var cc cv
+	json.Unmarshal([]byte(order.Content), &cc)
+
+	var userSub []models.UserRoomSubscribe
+	ay.Db.Where("uid = ? and ymd = ?", requestUser.Id, cc.Ymd).Find(&userSub)
+
+	//config := models.ConfigModel{}.Get()
+	var list []gin.H
+	for _, v := range userSub {
+		amount := res.Amount
+		var roomSub models.RoomSubscribe
+		ay.Db.Where("room_id = ? and ymd = ? and hour_id = ?", res.Id, cc.Ymd, v.HourId).Find(&roomSub)
+		if roomSub.Id != 0 {
+			amount = roomSub.Amount
+		}
+		//list[v.HourId] = v.Amount
+		list = append(list, gin.H{
+			"hour_id": v.HourId,
+			"amount":  amount,
+		})
+	}
+
+	imageArr := strings.Split(res.Image, ",")
+
+	var image []string
+
+	for _, v := range imageArr {
+		image = append(image, ay.Yaml.GetString("domain")+v)
+	}
+
+	video := ""
+	if res.Video != "" {
+		video = ay.Yaml.GetString("domain") + res.Video
+	}
+
+	if list != nil {
+		ay.Json{}.Msg(c, 200, "success", gin.H{
+			"info": gin.H{
+				"id":        res.Id,
+				"name":      res.Name,
+				"address":   res.Address,
+				"mobile":    res.Mobile,
+				"image":     image,
+				"introduce": res.Introduce,
+				"attention": res.Attention,
+				"guide":     res.Guide,
+				"cancel":    res.Cancel,
+				"video":     video,
+			},
+			"user_subscribe": list,
+		})
+	} else {
+		ay.Json{}.Msg(c, 200, "success", gin.H{
+			"info": gin.H{
+				"id":        res.Id,
+				"name":      res.Name,
+				"address":   res.Address,
+				"mobile":    res.Mobile,
+				"image":     image,
+				"introduce": res.Introduce,
+				"attention": res.Attention,
+				"guide":     res.Guide,
+				"cancel":    res.Cancel,
+				"video":     video,
+			},
+			"user_subscribe": gin.H{},
+		})
+	}
+}

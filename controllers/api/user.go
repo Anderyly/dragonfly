@@ -9,8 +9,10 @@ package api
 
 import (
 	"dragonfly/ay"
+	"dragonfly/controllers"
 	"dragonfly/models"
 	"github.com/gin-gonic/gin"
+	"log"
 	"time"
 )
 
@@ -122,5 +124,39 @@ func (con UserController) Order(c *gin.Context) {
 		ay.Json{}.Msg(c, 200, "success", gin.H{
 			"list": list,
 		})
+	}
+}
+
+func (con UserController) GetQr(c *gin.Context) {
+
+	isAuth, code, msg, user := Auth(GetToken(Token))
+
+	if !isAuth {
+		ay.Json{}.Msg(c, code, msg, gin.H{})
+		return
+	}
+
+	t := time.Now().Unix()
+
+	var res models.Control
+	ay.Db.Where("uid = ? AND type = 1 AND ((? - start <= 1800) or end > ?) AND end > 0", user.Id, t, t).Order("start asc").First(&res)
+
+	id := res.ControlId + "," + ay.Yaml.GetString("public_control_id")
+	log.Println(res.Start, res.End, id)
+
+	if res.Id == 0 {
+		ay.Json{}.Msg(c, 400, "未到时间", gin.H{})
+	} else {
+
+		sT := time.Unix(res.Start, 0)
+		eT := time.Unix(res.End, 0)
+
+		controllers.ControlServer{}.EditUser(user.ControlUserId, sT.Format("2006-01-02 15:04:05"), eT.Format("2006-01-02 15:04:05"))
+		controllers.ControlServer{}.BindUser(user.ControlUserId, id, "")
+		_, text := controllers.ControlServer{}.GetQr(user.ControlUserId)
+		ay.Json{}.Msg(c, 400, "success", gin.H{
+			"text": text,
+		})
+
 	}
 }
