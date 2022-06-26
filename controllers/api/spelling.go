@@ -125,6 +125,7 @@ func (con SpellingController) Detail(c *gin.Context) {
 		"education_name":      education.Name,
 		"education_label":     education.Label,
 		"education_introduce": education.Introduce,
+		"education_wechat":    education.Wechat,
 		"name":                res.Name,
 		"address":             res.Address,
 		"mobile":              res.Mobile,

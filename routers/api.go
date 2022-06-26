@@ -30,6 +30,7 @@ func ApiRouters(r *gin.RouterGroup) {
 	apiGroup.POST("user/info", api.UserController{}.Info)
 	apiGroup.GET("user/order", api.UserController{}.Order)
 	apiGroup.GET("user/qr", api.UserController{}.GetQr)
+	apiGroup.GET("user/open", api.UserController{}.Open)
 
 	// 分店
 	apiGroup.GET("branch/list", api.StoreController{}.List)

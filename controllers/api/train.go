@@ -143,6 +143,7 @@ func (con TrainController) Detail(c *gin.Context) {
 		"education_avatar":    ay.Yaml.GetString("domain") + education.Avatar,
 		"education_name":      education.Name,
 		"education_label":     education.Label,
+		"education_wechat":    education.Wechat,
 		"education_introduce": education.Introduce,
 		"name":                res.Name,
 		"address":             res.Address,

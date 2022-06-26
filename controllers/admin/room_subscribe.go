@@ -64,7 +64,6 @@ func (con RoomSubscribeController) List(c *gin.Context) {
 		Find(&list)
 
 	sjd := [24]string{
-		"00:00-01:00",
 		"01:00-02:00",
 		"02:00-03:00",
 		"03:00-04:00",
@@ -88,12 +87,13 @@ func (con RoomSubscribeController) List(c *gin.Context) {
 		"21:00-22:00",
 		"22:00-23:00",
 		"23:00-00:00",
+		"00:00-01:00",
 	}
 
 	for k, v := range list {
 
 		i, _ := strconv.Atoi(v.HourId)
-		list[k].HourId = sjd[i]
+		list[k].HourId = sjd[i-1]
 		list[k].Ymd = v.Ymd[0:4] + "-" + v.Ymd[4:6] + "-" + v.Ymd[6:8]
 	}
 

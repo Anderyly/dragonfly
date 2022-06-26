@@ -107,6 +107,7 @@ func (con RoomController) Detail(c *gin.Context) {
 		"guide":     res.Guide,
 		"cancel":    res.Cancel,
 		"video":     video,
+		"type":      res.Type,
 	})
 
 }
@@ -249,6 +250,8 @@ func (con RoomController) Pay(c *gin.Context) {
 	hourIdArr := strings.Split(data.HourId, ",")
 	oldHourIdArr := hourIdArr
 
+	log.Println(oldHourIdArr)
+
 	// 判断是否有用户在时间预约
 	var userSub []models.UserRoomSubscribe
 	ay.Db.Where("room_id = ? and ymd = ?", data.RoomId, data.Ymd).Find(&userSub)
@@ -295,10 +298,12 @@ func (con RoomController) Pay(c *gin.Context) {
 			hourIdArr = []string{}
 		} else {
 			num = cardNum
-			hourIdArr = hourIdArr[0:cardNum]
+			hourIdArr = hourIdArr[0 : len(hourIdArr)-cardNum]
 		}
 
 	}
+
+	log.Println(hourIdArr)
 
 	ssv := gin.H{
 		"time": oldHourIdArr,
@@ -311,19 +316,22 @@ func (con RoomController) Pay(c *gin.Context) {
 
 	if len(hourIdArr) >= 1 {
 		// 获取预定价格
-		var roomSub []models.RoomSubscribe
-		ay.Db.Where("room_id = ? and ymd = ?", data.RoomId, data.Ymd).Find(&roomSub)
-		for _, v := range roomSub {
-			for _, v1 := range hourIdArr {
-				if strconv.Itoa(v.HourId) == v1 {
-					amount += v.Amount
-				} else {
-					amount += res.Amount
-				}
+		//var roomSub []models.RoomSubscribe
+		//ay.Db.Where("room_id = ? and ymd = ?", data.RoomId, data.Ymd).Find(&roomSub)
+		//for _, v := range roomSub {
+		for _, v1 := range hourIdArr {
+			var roomSub models.RoomSubscribe
+			ay.Db.Where("room_id = ? and ymd = ? and hour_id = ?", data.RoomId, data.Ymd, v1).First(&roomSub)
+			if roomSub.Id != 0 {
+				//	log.Println(amount)
+				amount += roomSub.Amount
+			} else {
+				amount += res.Amount
 			}
 		}
+		//}
 
-		//log.Println("old:", amount)
+		log.Println("old:", amount)
 		// 优惠卷判断
 
 		if data.CouponId != 0 {
@@ -332,6 +340,7 @@ func (con RoomController) Pay(c *gin.Context) {
 				return
 			}
 		}
+
 		amount = amount - coupon.Amount
 
 		//log.Println("coupon:", amount)
@@ -342,8 +351,12 @@ func (con RoomController) Pay(c *gin.Context) {
 		}
 	}
 
+	log.Println(amount)
+	//return
+
 	amount, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", amount), 64)
 	//log.Println("price:", amount)
+	//return
 	//log.Println("card:", num)
 
 	cv, _ := json.Marshal(ssv)
@@ -397,6 +410,8 @@ func (con RoomController) Pay(c *gin.Context) {
 	}
 
 	if data.PayType == 1 {
+
+		log.Println(amount)
 		isC, msg, info := PayController{}.Wechat(data.Code, order.Des, order.OutTradeNo, c.ClientIP(), amount)
 
 		if !isC {
@@ -658,6 +673,7 @@ func (con RoomController) SubscribeOrder(c *gin.Context) {
 				"guide":     res.Guide,
 				"cancel":    res.Cancel,
 				"video":     video,
+				"type":      res.Type,
 			},
 			"user_subscribe": list,
 		})
@@ -674,6 +690,7 @@ func (con RoomController) SubscribeOrder(c *gin.Context) {
 				"guide":     res.Guide,
 				"cancel":    res.Cancel,
 				"video":     video,
+				"type":      res.Type,
 			},
 			"user_subscribe": gin.H{},
 		})

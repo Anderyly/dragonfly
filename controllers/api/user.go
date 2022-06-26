@@ -13,6 +13,7 @@ import (
 	"dragonfly/models"
 	"github.com/gin-gonic/gin"
 	"log"
+	"strconv"
 	"time"
 )
 
@@ -99,6 +100,7 @@ func (con UserController) Order(c *gin.Context) {
 
 	var order []models.Order
 	ay.Db.Where("uid = ?", user.Id).
+		Order("created_at desc").
 		Offset(page * Limit).
 		Limit(Limit).
 		Find(&order)
@@ -154,9 +156,34 @@ func (con UserController) GetQr(c *gin.Context) {
 		controllers.ControlServer{}.EditUser(user.ControlUserId, sT.Format("2006-01-02 15:04:05"), eT.Format("2006-01-02 15:04:05"))
 		controllers.ControlServer{}.BindUser(user.ControlUserId, id, "")
 		_, text := controllers.ControlServer{}.GetQr(user.ControlUserId)
-		ay.Json{}.Msg(c, 400, "success", gin.H{
+		ay.Json{}.Msg(c, 200, "success", gin.H{
 			"text": text,
 		})
+
+	}
+}
+
+func (con UserController) Open(c *gin.Context) {
+	isAuth, code, msg, user := Auth(GetToken(Token))
+
+	if !isAuth {
+		ay.Json{}.Msg(c, code, msg, gin.H{})
+		return
+	}
+
+	t := time.Now().Unix()
+
+	var res models.Control
+	ay.Db.Where("uid = ? AND type = 1 AND ((? - start <= 15*60) or end > ?) AND end > 0", user.Id, t, t).Order("start asc").First(&res)
+
+	if res.Id == 0 {
+		ay.Json{}.Msg(c, 400, "未到时间", gin.H{})
+	} else {
+		id := controllers.ControlServer{}.GetId(ay.Yaml.GetString("public_control_sn"))
+		log.Println(id)
+		res := controllers.ControlServer{}.Set(strconv.Itoa(id), "10")
+		log.Println(res)
+		ay.Json{}.Msg(c, 200, "已开门", gin.H{})
 
 	}
 }

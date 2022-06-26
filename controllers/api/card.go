@@ -95,7 +95,7 @@ func (con CardController) User(c *gin.Context) {
 	}
 	var res []r
 	ay.Db.Table("d_user_card").
-		Select("d_card.type,d_card.name,d_card.amount,d_card.hour_amount,d_card.all_hour,d_user_card.use_hour,d_user_card.status,d_user_card.effective_at").
+		Select("d_card.type,d_card.name,d_card.amount,d_card.hour_amount,d_card.all_hour,d_user_card.use_hour,d_user_card.status,d_user_card.effective_at,d_user_card.id").
 		Joins("left join d_card on d_user_card.card_id=d_card.id").
 		Offset(page*Limit).
 		Limit(Limit).
@@ -260,7 +260,7 @@ func (con CardController) Select(c *gin.Context) {
 	}
 	var res []r
 	ay.Db.Table("d_user_card").
-		Select("d_card.type,d_card.name,d_card.amount,d_card.hour_amount,d_card.all_hour,d_user_card.use_hour,d_user_card.status,d_user_card.effective_at").
+		Select("d_card.type,d_card.name,d_card.amount,d_card.hour_amount,d_card.all_hour,d_user_card.use_hour,d_user_card.status,d_user_card.effective_at,d_user_card.id").
 		Joins("left join d_card on d_user_card.card_id=d_card.id").
 		Offset(page*Limit).
 		Limit(Limit).

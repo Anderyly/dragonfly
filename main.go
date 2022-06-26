@@ -35,6 +35,7 @@ func main() {
 	gin.SetMode(gin.DebugMode)
 	r = service.Set(r)
 	r.StaticFS("/static/", http.Dir("./static"))
+	r.StaticFS("/root", http.Dir("./admin"))
 	r = routers.GinRouter(r)
 
 	err = r.Run(":" + ay.Yaml.GetString("port"))

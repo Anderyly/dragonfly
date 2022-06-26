@@ -103,9 +103,38 @@ func (con NotifyController) Wechat(c *gin.Context) {
 		row = models.UserCardModel{}.Add(card.Id, card.AllHour, order.Uid, card.Effective, order.OldAmount)
 	case 1:
 		// 舞蹈室
+		type cv struct {
+			Num  int      `json:"num"`
+			Time []string `json:"time"`
+			Ymd  int      `json:"ymd"`
+		}
+		var cc cv
+		json.Unmarshal([]byte(order.Content), &cc)
+
+		if order.CardId != 0 {
+			// 扣除次卡
+			var card models.UserCard
+			ay.Db.First(&card, order.CardId)
+			card.UseHour += cc.Num
+			if card.UseHour >= card.AllHour {
+				card.Status = 1
+			}
+			ay.Db.Save(&card)
+		}
+		// 增加预约次数
+		isSub, _ := models.UserRoomSubscribeModel{}.Add(order.Content, order.Uid, order.Cid, cc.Ymd)
+		if !isSub {
+			ay.Json{}.Msg(c, 400, "请联系管理员", gin.H{})
+			return
+		}
+
+		var user models.User
+		ay.Db.First(&user, order.Uid)
+		user.VipNum += order.Amount
+		ay.Db.Save(&user)
+		res = 1
+
 	}
-	log.Println(res)
-	log.Println(row)
 
 	if res == 1 || row == true {
 		stamp, _ := time.ParseInLocation("2006-01-02 15:04:05", time.Now().Format("2006-01-02 15:04:05"), time.Local)
