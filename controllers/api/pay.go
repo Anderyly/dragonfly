@@ -10,11 +10,13 @@ package api
 import (
 	"context"
 	"dragonfly/ay"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-pay/gopay"
 	"github.com/go-pay/gopay/pkg/util"
 	"github.com/go-pay/gopay/wechat"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -34,11 +36,17 @@ func (con PayController) Wechat(code, des, outTradeNo, ip string, amount float64
 	client.DebugSwitch = gopay.DebugOn
 	client.SetCountry(wechat.China)
 
+	tmpStr1 := fmt.Sprintf("%.2f", amount)
+	total, _ := strconv.ParseInt(strings.Replace(tmpStr1, ".", "", 1), 10, 64)
+	//total := int(tmpnum1 * 100)
+	//log.Println(tmpnum1)
+	//log.Println(total)
+
 	bm := make(gopay.BodyMap)
 	bm.Set("nonce_str", util.RandomString(32)).
 		Set("body", des).
 		Set("out_trade_no", outTradeNo).
-		Set("total_fee", amount*100).
+		Set("total_fee", total).
 		Set("spbill_create_ip", ip).
 		Set("notify_url", ay.Yaml.GetString("domain")+"/api/notify/wechat").
 		Set("trade_type", "JSAPI").

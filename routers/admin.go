@@ -120,4 +120,13 @@ func AdminRouters(r *gin.RouterGroup) {
 	adminGroup.POST("basic/detail", admin.BasicController{}.Detail)
 	adminGroup.POST("basic/option", admin.BasicController{}.Option)
 
+	// 充值价格
+	adminGroup.GET("recharge/list", admin.RechargeController{}.List)
+	adminGroup.POST("recharge/detail", admin.RechargeController{}.Detail)
+	adminGroup.POST("recharge/delete", admin.RechargeController{}.Delete)
+	adminGroup.POST("recharge/option", admin.RechargeController{}.Option)
+
+	adminGroup.GET("feed/list", admin.FeedController{}.List)
+	adminGroup.POST("feed/detail", admin.FeedController{}.Detail)
+
 }

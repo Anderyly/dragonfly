@@ -264,7 +264,7 @@ func (con CardController) Select(c *gin.Context) {
 		Joins("left join d_card on d_user_card.card_id=d_card.id").
 		Offset(page*Limit).
 		Limit(Limit).
-		Where("d_user_card.uid = ? and d_card.type = ?", requestUser.Id, data.Type).
+		Where("d_user_card.uid = ? and (d_card.type = ? or d_card.type = 5)", requestUser.Id, data.Type).
 		Order("d_user_card.status asc").
 		Find(&res)
 
