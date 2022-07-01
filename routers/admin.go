@@ -129,4 +129,7 @@ func AdminRouters(r *gin.RouterGroup) {
 	adminGroup.GET("feed/list", admin.FeedController{}.List)
 	adminGroup.POST("feed/detail", admin.FeedController{}.Detail)
 
+	adminGroup.POST("room/getTime", admin.RoomTController{}.List)
+	adminGroup.POST("roomt/option", admin.RoomTController{}.Option)
+
 }

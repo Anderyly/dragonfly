@@ -10,7 +10,7 @@ package task
 func Start() {
 	Coupon()
 	Card()
-	Vip()
+	//Vip()
 	Control()
 	ControlDel()
 	ControlOpenElectric()
