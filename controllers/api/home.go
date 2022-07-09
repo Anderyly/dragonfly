@@ -109,7 +109,7 @@ SELECT count(hour_id)
 FROM d_user_room_subscribe t4
 where t4.uid=t1.uid
 ) as time, t3.avatar, t3.nickname
-FROM d_user_room_subscribe t1 join d_user as t3 on t1.uid=t3.id WHERE ` + where + " limit 10"
+FROM d_user_room_subscribe t1 join d_user as t3 on t1.uid=t3.id WHERE ` + where + " ORDER BY time desc limit 50 "
 
 	ay.Db.Raw(sql).Scan(&rj)
 	var list []gin.H
@@ -123,6 +123,10 @@ FROM d_user_room_subscribe t1 join d_user as t3 on t1.uid=t3.id WHERE ` + where 
 			"time":     v.Time,
 		})
 	}
+
+	//for _, v := range list {
+	//
+	//}
 
 	var count int64
 	ay.Db.Model(&models.Order{}).Where("type = 1 and uid = ? and status = 1", requestUser.Id).Count(&count)

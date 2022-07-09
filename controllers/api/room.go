@@ -675,6 +675,7 @@ func (con RoomController) SubscribeOrder(c *gin.Context) {
 				"video":     video,
 				"type":      res.Type,
 			},
+			"subscribe_ymd":  cc.Ymd,
 			"user_subscribe": list,
 		})
 	} else {
