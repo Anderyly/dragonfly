@@ -256,7 +256,10 @@ func (con TrainController) Subscribe(c *gin.Context) {
 			return
 		}
 		requestUser.Amount -= amount
-		requestUser.VipNum += res.Amount
+		//requestUser.VipNum += res.Amount
+		if isVip {
+			requestUser.VipNum += amount
+		}
 		tx := ay.Db.Begin()
 
 		// 扣除用户余额

@@ -393,7 +393,7 @@ func (con RoomController) Pay(c *gin.Context) {
 			}
 		}
 		// 增加预约次数
-		isSub, _ := models.UserRoomSubscribeModel{}.Add(string(cv), requestUser.Id, res.Id, data.Ymd)
+		isSub, _ := models.UserRoomSubscribeModel{}.Add(outTradeNo, string(cv), requestUser.Id, res.Id, data.Ymd)
 		if !isSub {
 			tx.Rollback()
 			ay.Json{}.Msg(c, 400, "请联系管理员", gin.H{})
@@ -428,7 +428,9 @@ func (con RoomController) Pay(c *gin.Context) {
 			return
 		}
 		requestUser.Amount -= amount
-		requestUser.VipNum += amount
+		if isVip {
+			requestUser.VipNum += amount
+		}
 		tx := ay.Db.Begin()
 
 		// 扣除用户余额
@@ -458,7 +460,7 @@ func (con RoomController) Pay(c *gin.Context) {
 				}
 			}
 			// 增加预约次数
-			isSub, _ := models.UserRoomSubscribeModel{}.Add(string(cv), requestUser.Id, res.Id, data.Ymd)
+			isSub, _ := models.UserRoomSubscribeModel{}.Add(outTradeNo, string(cv), requestUser.Id, res.Id, data.Ymd)
 			if !isSub {
 				tx.Rollback()
 				ay.Json{}.Msg(c, 400, "请联系管理员", gin.H{})
@@ -531,21 +533,42 @@ func (con RoomController) Channel(c *gin.Context) {
 
 	// 取消预约
 	channelNum := ay.Yaml.GetInt("channel.num")
-	//channelHour := ay.Yaml.GetInt("channel.hour")
+	channelHour := ay.Yaml.GetInt("channel.hour")
 	if isVip {
 		channelNum = vipLevel.Chanel
-		//channelHour = vipLevel.AdvanceChanel
+		channelHour = vipLevel.AdvanceChanel
 	}
+
+	// 舞蹈室
+	type cv struct {
+		Num  int      `json:"num"`
+		Time []string `json:"time"`
+		Ymd  int      `json:"ymd"`
+	}
+	var cc cv
+	json.Unmarshal([]byte(order.Content), &cc)
+
+	hour := cc.Time[0]
+	if len(cc.Time[0]) == 1 {
+		hour = "0" + cc.Time[0]
+	}
+
+	ymd := strconv.Itoa(cc.Ymd)
+	ymd = ymd[0:4] + "-" + ymd[4:6] + "-" + ymd[6:8]
+
+	stamp, _ := time.ParseInLocation("2006-01-02 15:04:05", ymd+" "+hour+":00:00", time.Local)
+
+	log.Println(ymd + " " + hour + ":00:00")
 
 	//if res.StartDate.Unix() < time.Now().Unix() {
 	//	ay.Json{}.Msg(c, 400, "训练营已开始，无法取消", gin.H{})
 	//	return
 	//}
 	//
-	//if res.StartDate.Unix()-time.Now().Unix() < int64(channelHour*3600) {
-	//	ay.Json{}.Msg(c, 400, "距离开始不足"+strconv.Itoa(channelHour)+"小时，无法取消", gin.H{})
-	//	return
-	//}
+	if stamp.Unix()-time.Now().Unix() < int64(channelHour*3600) {
+		ay.Json{}.Msg(c, 400, "距离开始不足"+strconv.Itoa(channelHour)+"小时，无法取消", gin.H{})
+		return
+	}
 
 	// 是否还能取消
 	isChannel, channelMsg := CommonController{}.GetChanelCount(channelNum, requestUser.Id)
@@ -613,7 +636,7 @@ func (con RoomController) SubscribeOrder(c *gin.Context) {
 		return
 	}
 
-	isLogin, code, msg, requestUser := Auth(GetToken(Token))
+	isLogin, code, msg, _ := Auth(GetToken(Token))
 
 	if !isLogin {
 		ay.Json{}.Msg(c, code, msg, gin.H{})
@@ -629,7 +652,7 @@ func (con RoomController) SubscribeOrder(c *gin.Context) {
 	json.Unmarshal([]byte(order.Content), &cc)
 
 	var userSub []models.UserRoomSubscribe
-	ay.Db.Where("uid = ? and ymd = ?", requestUser.Id, cc.Ymd).Find(&userSub)
+	ay.Db.Debug().Where("out_trade_no = ?", order.OutTradeNo).Find(&userSub)
 
 	//config := models.ConfigModel{}.Get()
 	var list []gin.H

@@ -57,6 +57,11 @@ func (con LoginController) Login(c *gin.Context) {
 			r := models.UserModel{}.GetOpenid(openid)
 			_, res := controllers.ControlServer{}.AddUser(data.Nickname, strconv.FormatInt(r.Id, 10), "2022-06-01 11:11:11", "2022-06-01 17:11:11", "81204", "0")
 			r.ControlUserId = strconv.Itoa(res)
+			if r.ControlUserId == "0" {
+				r = models.UserModel{}.GetOpenid(openid)
+				_, res = controllers.ControlServer{}.AddUser(data.Nickname, strconv.FormatInt(r.Id, 10), "2022-06-01 11:11:11", "2022-06-01 17:11:11", "81204", "0")
+				r.ControlUserId = strconv.Itoa(res)
+			}
 			ay.Db.Save(&r)
 			ay.Json{}.Msg(c, 200, "success", gin.H{
 				"token":    ay.AuthCode(strconv.Itoa(int(r.Id)), "ENCODE", "", 0),

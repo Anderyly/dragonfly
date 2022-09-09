@@ -58,7 +58,7 @@ func (con UserController) Info(c *gin.Context) {
 	}
 
 	var orderCount int64
-	ay.Db.Model(&models.Order{}).Where("uid = ?", user.Id).Count(&orderCount)
+	ay.Db.Model(&models.Order{}).Where("uid = ? AND type = 1 AND status != 0", user.Id).Count(&orderCount)
 
 	var cardCount int64
 	ay.Db.Model(&models.UserCard{}).Where("uid = ?", user.Id).Count(&cardCount)
@@ -101,29 +101,42 @@ func (con UserController) Order(c *gin.Context) {
 	}
 
 	var order []models.Order
-	rs := ay.Db.Where("uid = ?", user.Id).
+	rs := ay.Db.Where("uid = ? AND type = 1", user.Id).
 		Order("created_at desc").
 		Offset(page * Limit).
 		Limit(Limit)
 
-	today := time.Now().Format("20060102")
+	//today := time.Now().Format("20060102")
 	hour := time.Now().Format("15")
+	if string([]rune(hour)[0]) == "0" {
+		hour = string([]rune(hour)[1])
+	}
 
 	switch data.Type {
 	case 2:
 		rs.Where("status = 2")
 	case 3:
-		rs.Where("content like ? AND content like ? AND status = 1", "%"+today+"%", "%"+hour+"%")
+		rs.Where("end > ? AND status = 1", time.Now().Unix())
 	case 4:
-		rs.Where("content not like ? AND content not like ? AND status = 1", "%"+today+"%", "%"+hour+"%")
-	default:
-		rs.Where("status = 1 OR status = 2")
+		rs.Where("end < ? AND status = 1", time.Now().Unix())
+	case 1:
+		rs.Where("(status = 1 OR status = 2)")
 	}
 
 	rs.Debug().Find(&order)
 
 	var list []gin.H
 	for _, v := range order {
+		type cv struct {
+			Num  int      `json:"num"`
+			Time []string `json:"time"`
+			Ymd  int      `json:"ymd"`
+		}
+		var cc cv
+		json.Unmarshal([]byte(v.Content), &cc)
+
+		var room models.Room
+		ay.Db.Select("name").First(&room, v.Cid)
 		list = append(list, gin.H{
 			"id":         v.Id,
 			"type":       v.Type,
@@ -132,6 +145,9 @@ func (con UserController) Order(c *gin.Context) {
 			"op":         v.Op,
 			"created_at": v.CreatedAt.Unix(),
 			"amount":     v.Amount,
+			"room_name":  room.Name,
+			"ymd":        cc.Ymd,
+			"hour":       cc.Time,
 		})
 	}
 
@@ -158,7 +174,7 @@ func (con UserController) GetQr(c *gin.Context) {
 	t := time.Now().Unix()
 
 	var res models.Control
-	ay.Db.Where("uid = ? AND type = 1 AND ((? - start <= 1800) or end > ?) AND end > 0", user.Id, t, t).Order("start asc").First(&res)
+	ay.Db.Debug().Where("uid = ? AND (start - ? <= 1800 AND ? <= end) AND end > 0 AND type = 1", user.Id, t, t).Order("start asc").First(&res)
 
 	if res.Id == 0 {
 		ay.Json{}.Msg(c, 400, "未到时间", gin.H{})
@@ -167,10 +183,17 @@ func (con UserController) GetQr(c *gin.Context) {
 		var room models.Room
 		ay.Db.Select("id,name").Where("control_id = ?", res.ControlId).First(&room)
 
+		log.Println(res)
 		h := time.Unix(res.Start, 0).Format("15")
+		log.Println(h)
+		if h == "00" {
+			h = "24"
+		}
+		var ss models.UserRoomSubscribe
+		ay.Db.Where("id = ?", res.Cid).First(&ss)
 
 		var order models.Order
-		ay.Db.Debug().Where("uid = ? AND cid = ? AND content like ? AND content like ?", res.Uid, room.Id, "%"+h+"%", "%"+time.Unix(res.Start, 0).Format("20060102")+"%").First(&order)
+		ay.Db.Debug().Where("out_trade_no = ?", ss.OutTradeNo).First(&order)
 
 		type cv struct {
 			Num  int      `json:"num"`

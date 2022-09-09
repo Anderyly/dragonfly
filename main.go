@@ -16,8 +16,7 @@ var (
 )
 
 func main() {
-	//service.ElectricServer{}.Header("/cloud/thing/properties/get", "")
-	//return
+
 	ay.Yaml = ay.InitConfig()
 	ay.Sql()
 	go ay.WatchConf()

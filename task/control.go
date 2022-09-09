@@ -220,7 +220,15 @@ func ControlOpenElectric() {
 func ControlCloseElectric() {
 	t := time.Now().Unix()
 	var res models.Control
-	ay.Db.Where("type = 4 AND status = 0 AND ? - end > 300", t).Select("id,uid,electric_sn").First(&res)
+	ay.Db.Where("type = 4 AND status = 0 AND ? - end > 300", t).Select("id,uid,electric_sn,start,end").First(&res)
+	if res.Id != 0 {
+		var ccc models.Control
+		ay.Db.Where("start = ? AND type = 3", res.End).First(&ccc)
+		if ccc.Id != 0 {
+			ay.Db.Model(models.Control{}).Where("id = ?", res.Id).UpdateColumn("status", 2)
+			return
+		}
+	}
 
 	if res.Id == 0 {
 		return

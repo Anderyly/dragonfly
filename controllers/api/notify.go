@@ -83,8 +83,11 @@ func (con NotifyController) Wechat(c *gin.Context) {
 		} else {
 			var user models.User
 			ay.Db.First(&user, order.Uid)
-			user.VipNum += order.Amount
-			ay.Db.Save(&user)
+			isVip, _ := CommonController{}.GetVip(user)
+			if isVip {
+				user.VipNum += order.Amount
+				ay.Db.Save(&user)
+			}
 			res = 1
 		}
 	case 3:
@@ -122,7 +125,7 @@ func (con NotifyController) Wechat(c *gin.Context) {
 			ay.Db.Save(&card)
 		}
 		// 增加预约次数
-		isSub, _ := models.UserRoomSubscribeModel{}.Add(order.Content, order.Uid, order.Cid, cc.Ymd)
+		isSub, _ := models.UserRoomSubscribeModel{}.Add(order.OutTradeNo, order.Content, order.Uid, order.Cid, cc.Ymd)
 		if !isSub {
 			ay.Json{}.Msg(c, 400, "请联系管理员", gin.H{})
 			return
@@ -130,8 +133,11 @@ func (con NotifyController) Wechat(c *gin.Context) {
 
 		var user models.User
 		ay.Db.First(&user, order.Uid)
-		user.VipNum += order.Amount
-		ay.Db.Save(&user)
+		isVip, _ := CommonController{}.GetVip(user)
+		if isVip {
+			user.VipNum += order.Amount
+			ay.Db.Save(&user)
+		}
 		res = 1
 
 	}

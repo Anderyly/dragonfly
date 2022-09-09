@@ -122,6 +122,28 @@ func (con CommonController) GetVip(user models.User) (bool, models.VipLevel) {
 func (con CommonController) MakeOrder(op, vType int, msg string, uid, CouponId int64, amount, OldAmount float64, ip, content string, cardId int64, cid int64, vipDiscount float64) (int, string, models.Order) {
 	oid := ay.MakeOrder(time.Now())
 
+	type cv struct {
+		Num  int      `json:"num"`
+		Time []string `json:"time"`
+		Ymd  int      `json:"ymd"`
+	}
+	var cc cv
+	json.Unmarshal([]byte(content), &cc)
+	ymd := strconv.Itoa(cc.Ymd)
+	if cc.Ymd != 0 {
+		ymd = ymd[0:4] + "-" + ymd[4:6] + "-" + ymd[6:8]
+	}
+
+	hour := ""
+	if cc.Time != nil {
+		hour = cc.Time[len(cc.Time)-1]
+		if len(cc.Time[0]) == 1 {
+			hour = "0" + cc.Time[0]
+		}
+	}
+
+	stamp, _ := time.ParseInLocation("2006-01-02 15:04:05", ymd+" "+hour+":00:00", time.Local)
+
 	order := models.Order{
 		OutTradeNo:  oid,
 		Type:        vType,
@@ -138,6 +160,7 @@ func (con CommonController) MakeOrder(op, vType int, msg string, uid, CouponId i
 		Cid:         cid,
 		Op:          op,
 		VipDiscount: vipDiscount,
+		End:         stamp.Unix(),
 	}
 
 	ay.Db.Create(&order)

@@ -45,10 +45,10 @@ func (con UserCardModel) Add(cardId int64, allHour int, uid int64, effectiveT in
 	}).Error; err != nil {
 		return false
 	} else {
-		var user User
-		ay.Db.First(&user, uid)
-		user.VipNum += amount
-		ay.Db.Save(&user)
+		//var user User
+		//ay.Db.First(&user, uid)
+		//user.VipNum += amount
+		//ay.Db.Save(&user)
 		return true
 	}
 }

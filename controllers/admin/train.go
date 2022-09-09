@@ -98,22 +98,23 @@ func (con TrainController) Detail(c *gin.Context) {
 // Option 添加 编辑
 func (con TrainController) Option(c *gin.Context) {
 	type optionForm struct {
-		Id          int    `form:"id"`
-		StoreId     int64  `form:"store_id"`
-		Room        string `form:"room"`
-		EducationId int64  `form:"education_id"`
-		Name        string `form:"name"`
-		Address     string `form:"address"`
-		Mobile      string `form:"mobile"`
-		Introduce   string `form:"introduce"`
-		Attention   string `form:"attention"`
-		Arrange     string `form:"arrange"`
-		BackImage   string `form:"back_image"`
-		Image       string `form:"image"`
-		Video       string `form:"video"`
-		MinUser     int    `form:"min_user"`
-		MaxUser     int    `form:"max_user"`
-		StartDate   string `form:"start_date"`
+		Id          int     `form:"id"`
+		StoreId     int64   `form:"store_id"`
+		Room        string  `form:"room"`
+		EducationId int64   `form:"education_id"`
+		Name        string  `form:"name"`
+		Address     string  `form:"address"`
+		Mobile      string  `form:"mobile"`
+		Introduce   string  `form:"introduce"`
+		Attention   string  `form:"attention"`
+		Arrange     string  `form:"arrange"`
+		BackImage   string  `form:"back_image"`
+		Image       string  `form:"image"`
+		Video       string  `form:"video"`
+		MinUser     int     `form:"min_user"`
+		MaxUser     int     `form:"max_user"`
+		StartDate   string  `form:"start_date"`
+		Amount      float64 `form:"amount"`
 	}
 	var data optionForm
 	if err := c.ShouldBind(&data); err != nil {
@@ -148,6 +149,7 @@ func (con TrainController) Option(c *gin.Context) {
 		res.Address = data.Address
 		res.Arrange = data.Arrange
 		res.StartDate = models.MyTime{Time: stamp}
+		res.Amount = data.Amount
 
 		if err := ay.Db.Save(&res).Error; err != nil {
 			ay.Json{}.Msg(c, 400, "修改失败", gin.H{})
@@ -171,6 +173,7 @@ func (con TrainController) Option(c *gin.Context) {
 			MinUser:     data.MinUser,
 			MaxUser:     data.MaxUser,
 			StartDate:   models.MyTime{Time: stamp},
+			Amount:      data.Amount,
 		})
 		ay.Json{}.Msg(c, 200, "创建成功", gin.H{})
 

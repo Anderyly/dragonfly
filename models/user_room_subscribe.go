@@ -18,18 +18,19 @@ type UserRoomSubscribeModel struct {
 
 type UserRoomSubscribe struct {
 	BaseModel
-	RoomId int64 `json:"room_id"`
-	Uid    int64 `json:"uid"`
-	Ymd    int   `json:"ymd"`
-	HourId int   `json:"hour_id"`
-	Status int   `json:"status"`
+	RoomId     int64  `json:"room_id"`
+	Uid        int64  `json:"uid"`
+	Ymd        int    `json:"ymd"`
+	HourId     int    `json:"hour_id"`
+	Status     int    `json:"status"`
+	OutTradeNo string `json:"out_trade_no"`
 }
 
 func (UserRoomSubscribe) TableName() string {
 	return "d_user_room_subscribe"
 }
 
-func (con UserRoomSubscribeModel) Add(hourId string, uid int64, roomId int64, ymd int) (bool, string) {
+func (con UserRoomSubscribeModel) Add(outTradeNo string, hourId string, uid int64, roomId int64, ymd int) (bool, string) {
 	type cv struct {
 		Num  int      `json:"num"`
 		Time []string `json:"time"`
@@ -40,10 +41,11 @@ func (con UserRoomSubscribeModel) Add(hourId string, uid int64, roomId int64, ym
 	for _, v := range cc.Time {
 		hid, _ := strconv.Atoi(v)
 		ay.Db.Create(&UserRoomSubscribe{
-			RoomId: roomId,
-			Uid:    uid,
-			Ymd:    ymd,
-			HourId: hid,
+			RoomId:     roomId,
+			Uid:        uid,
+			Ymd:        ymd,
+			HourId:     hid,
+			OutTradeNo: outTradeNo,
 		})
 	}
 	return true, "success"

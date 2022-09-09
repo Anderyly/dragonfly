@@ -29,6 +29,7 @@ type Order struct {
 	Content     string  `json:"content"`
 	Des         string  `json:"des"`
 	Ip          string  `json:"ip"`
+	End         int64   `json:"end"`
 }
 
 func (Order) TableName() string {
